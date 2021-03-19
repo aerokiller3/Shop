@@ -1,0 +1,110 @@
+﻿@page
+@model Shop.UI.Pages.CartModel
+@{
+}
+
+
+<div class="container">
+    <div class="columns">
+        <div class="column is-6 is-offset-1">
+            @foreach (var product in Model.Cart)
+            {
+                <div class="level" id="product-@product.StockId">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img src="/products/images/@product.Image"/>
+                        </figure>
+                    </div>
+                    <div class="level-item">
+                        <p class="title">
+                            @product.Name
+                        </p>
+                    </div>
+                    <div class="level-item">
+                        <div class="columns is-gapless is-mobile is-multiline has-text-centered-tablet">
+                            <div class="column is-4">
+                                <button class="button" type="button" onclick="removeOneFromCart(event)" data-stock-id="@product.StockId">
+                                    -
+                                </button>
+                            </div>
+                            @*TODO: Разобраться почему стоит не по центру*@
+                            <div class="column is-4 align-self-center" id="stock-@product.StockId">
+                                @product.Qty
+                            </div>
+                            <div class="column is-4">
+                                <button class="button" type="button" onclick="addOneToCart(event)" data-stock-id="@product.StockId">
+                                    +
+                                </button>
+                            </div>
+                            <div class="column is-12">
+                                <a class="has-text-danger" onclick="removeAllFromCart(event)" data-stock-id="@product.StockId">
+                                    Remove
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        @product.Value
+                    </div>
+                </div>
+            }
+            <div class="has-text-right">
+                <a asp-page="/Index" class="button is-text">Resume Shopping</a>
+                <a asp-page="/Checkout/CustomerInformation" class="button is-success">Buy</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        var addOneToCart = function (e) {
+            var stockId = e.target.dataset.stockId;
+            axios.post("/Cart/AddOne/" + stockId)
+                .then(res => {
+                    var id = "stock-" + stockId;
+                    var el = document.getElementById(id);
+
+                    var qty = parseInt(el.innerText);
+
+                    el.innerText = (qty + 1);
+                })
+                .catch(err => {
+                    alert(err.error);
+                });
+        }
+
+        var removeOneFromCart = function (e) {
+            var stockId = e.target.dataset.stockId;
+
+            axios.post("/Cart/RemoveOne/" + stockId)
+                .then(res => {
+                    var id = "stock-" + stockId;
+                    var el = document.getElementById(id);
+
+                    var qty = parseInt(el.innerText);
+
+                    el.innerText = (qty - 1);
+                })
+                .catch(err => {
+                    alert(err.error);
+                });
+        }
+
+        var removeAllFromCart = function(e) {
+            var stockId = e.target.dataset.stockId;
+            axios.post("/Cart/RemoveAll/" + stockId)
+                .then(res => {
+                    var id = "product-" + stockId;
+                    var el = document.getElementById(id);
+
+                    el.outerHTML = "";
+                })
+                .catch(err => {
+                    alert(err.error);
+                });
+        }
+    </script>
+}
