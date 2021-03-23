@@ -4,6 +4,7 @@ using Shop.Database;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shop.Domain.Models;
 
 namespace Shop.Application.Products
 {
@@ -38,6 +39,8 @@ namespace Shop.Application.Products
 
             return _ctx.Products
                 .Include(x => x.Stock)
+                .Include(x => x.Categories)
+                .ThenInclude(x => x.Category)
                 .Where(x => x.Name == name)
                 .Select(x => new ProductViewModel
                 {
@@ -45,6 +48,7 @@ namespace Shop.Application.Products
                     Description = x.Description,
                     Image = x.Image,
                     Value = $"{x.Value:N2}",
+                    Categories = x.Categories,
 
                     Stock = x.Stock.Select(y => new StockViewModel
                     {
@@ -63,6 +67,7 @@ namespace Shop.Application.Products
             public string Value { get; set; }
             public string Image { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
+            public IEnumerable<CategoryProduct> Categories { get; set; }
         }
 
         public class StockViewModel

@@ -16,6 +16,13 @@
                     <section class="content">
                         <p class="title">@Model.Product.Name</p>
                         <p class="subtitle">@Model.Product.Description</p>
+                        <p>Категории</p>
+                        @foreach (var category in Model.Product.Categories)
+                        {
+                            <p class="content">
+                                @category.Category.Title
+                            </p>
+                        }
                         <footer>
                             <form method="post">
                                 <div class="field is-horizontal">

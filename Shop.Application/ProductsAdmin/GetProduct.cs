@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Shop.Database;
+using Shop.Domain.Models;
 
 namespace Shop.Application.ProductsAdmin
 {
@@ -13,13 +16,17 @@ namespace Shop.Application.ProductsAdmin
         }
 
         public ProductViewModel Do(int id) =>
-            _ctx.Products.Where(x => x.Id == id).Select(x => new ProductViewModel
+            _ctx.Products
+                .Include(x => x.Categories)
+                .ThenInclude(x => x.Category)
+                .Where(x => x.Id == id).Select(x => new ProductViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     Value = x.Value,
-                    Image = x.Image
+                    Image = x.Image,
+                    Categories = x.Categories
                 })
                 .FirstOrDefault();
 
@@ -30,6 +37,7 @@ namespace Shop.Application.ProductsAdmin
             public string Description { get; set; }
             public decimal Value { get; set; }
             public string Image { get; set; }
+            public List<CategoryProduct> Categories { get; set; }
         }
     }
 }

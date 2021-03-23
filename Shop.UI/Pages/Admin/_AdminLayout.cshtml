@@ -28,6 +28,7 @@
                             <li><a asp-page="/Admin/Index">Products</a></li>
                             <li><a asp-page="/Admin/OrderManagment">Orders</a></li>
                             <li><a asp-page="/Admin/Stock">Stock</a></li>
+                            <li><a asp-page="/Admin/Category">Categories</a></li>
                         </ul>
                     }
                     @if ((await authService.AuthorizeAsync(User, "Admin")).Succeeded)

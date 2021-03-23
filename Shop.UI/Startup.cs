@@ -54,6 +54,10 @@ namespace Shop.UI
 
             services.
                 AddMvc(option => option.EnableEndpointRouting = false)
+                .AddNewtonsoftJson(options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    })
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Admin");

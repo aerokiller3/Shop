@@ -1,10 +1,10 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Главная страница";
 }
 
-<div class="section">
+<div class="section is-8">
     <div class="columns is-multiline is-mobile">
         @{
             foreach (var p in Model.Products)
@@ -58,4 +58,30 @@
             }
         }
     </div>
+</div>
+<div class="section is-4">
+    <form method="post">
+        <label>Категории</label>
+        <div class="control">
+
+            @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
+            {
+                <label>@parent.Title</label>
+                <select name="categoryId">
+                    <option value="hide">--Выберите категорию--</option>
+                    @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
+                    {
+                        <option name="categoryId" value="@child.Id">@child.Title</option>
+                    }
+                </select>
+            }
+            <button type="submit" name="categoryId" id="categoryId">Выбрать</button>
+        </div>
+    </form>
+    <form>
+        <p>
+            Title: <input type="text" asp-for="Name" />
+            <input type="submit"/>
+        </p>
+    </form>
 </div>

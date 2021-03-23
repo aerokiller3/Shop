@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Shop.Database;
+using Shop.Domain.Models;
 
 namespace Shop.Application.Products
 {
@@ -17,16 +18,64 @@ namespace Shop.Application.Products
         public IEnumerable<ProductViewModel> Do() =>
             _ctx.Products
                 .Include(x => x.Stock)
+                .Include(x => x.Categories)
+                .ThenInclude(x => x.Category)
                 .Select(x => new ProductViewModel
-            {
-                Name = x.Name,
-                Description = x.Description,
-                Value = $"{x.Value:N2}",
-                Image = x.Image,
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Value = $"{x.Value:N2}",
+                    Image = x.Image,
+                    Categories = x.Categories,
 
-                StockCount = x.Stock.Sum(y => y.Qty)
-            })
+                    StockCount = x.Stock.Sum(y => y.Qty)
+                })
                 .ToList();
+
+        public IEnumerable<ProductViewModel> Do(List<int> categoryIds)
+        {
+            if (categoryIds.Count == 0)
+            {
+                var products = Do();
+                return products;
+            }
+            else
+            {
+                var products = _ctx.Categories
+                    .Where(c => categoryIds.Contains(c.Id))
+                    .SelectMany(c => c.Products)
+                    .Select(x => new ProductViewModel
+                    {
+                        Name = x.Product.Name,
+                        Description = x.Product.Description,
+                        Value = $"{x.Product.Value:N2}",
+                        Image = x.Product.Image,
+
+                        StockCount = x.Product.Stock.Sum(s => s.Qty),
+                    })
+                    .Distinct()
+                    .ToList();
+
+                return products;
+            }
+        }
+
+        public IEnumerable<ProductViewModel> Do(string name)
+        {
+            var products = _ctx.Products.Where(p => name.Contains(p.Name))
+                .Select(x => new ProductViewModel
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Value = $"{x.Value:N2}",
+                    Image = x.Image,
+
+                    StockCount = x.Stock.Sum(s => s.Qty),
+                    Categories = x.Categories
+                });
+
+            return products;
+        }
 
         public class ProductViewModel
         {
@@ -35,6 +84,7 @@ namespace Shop.Application.Products
             public string Value { get; set; }
             public string Image { get; set; }
             public int StockCount { get; set; }
+            public List<CategoryProduct> Categories { get; set; }
         }
     }
 }

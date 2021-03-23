@@ -12,6 +12,7 @@
                 <th>Product</th>
                 <th>Value</th>
                 <th>Image</th>
+                <th>Categories</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -20,6 +21,7 @@
                 <td>{{product.name}}</td>
                 <td>{{product.value}}</td>
                 <td>{{product.image}}</td>
+                <td v-for="category in product.categories" aria-multiline="true">{{category.category.title}}</td>
                 <td><a @@click="editProduct (product.id, index)">Edit</a></td>
                 <td><a @@click="deleteProduct(product.id, index)">Remove</a></td>
             </tr>
@@ -47,14 +49,26 @@
                 <input class="input" v-model.number="productModel.value" />
             </div>
         </div>
-        
-        <div class="field"  @*v-for="image in form.images"*@>
+
+        <div class="field">
+            <label class="label">Категории</label>
+            <div class="control">
+                <select v-model="productModel.categories" multiple>
+                    @foreach (var c in Model.Categories.Where(x => x.ParentCategoryId != null))
+                    {
+                        <option value="@c.Id">@c.Title</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="field" @*v-for="image in form.images"*@>
             <label class="label">Image</label>
             <div class="control">
                 <input type="file" class="input" value="productModel.image" @@change="uploadImage" />
                 @*<div>
-                    <img width="150" height="150" :src="image.path"/>
-                </div>*@
+                        <img width="150" height="150" :src="image.path"/>
+                    </div>*@
             </div>
         </div>
         <br />
