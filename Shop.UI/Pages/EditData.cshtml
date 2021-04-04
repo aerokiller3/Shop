@@ -1,0 +1,14 @@
+﻿@page
+@model Shop.UI.Pages.EditDataModel
+@{
+}
+
+<form method="post">
+    <div>
+        <input type="text" asp-for="User.Name" value="@Model.User.Name" />
+        <input type="text" asp-for="User.SurName" value="@Model.User.SurName" />
+        <input type="text" asp-for="User.Patronymic" value="@Model.User.Patronymic" />
+        <input type="text" asp-for="User.Email" value="@Model.User.Email" />
+        <input type="submit" value="Изменить"/>
+    </div>
+</form>

@@ -1,0 +1,41 @@
+﻿@page
+@model Shop.UI.Pages.RegistrationModel
+@{
+}
+
+<h2>Регистрация нового пользователя</h2>
+<form method="post" asp-route-returnUrl="@Model.RegisterModel.ReturnUrl">
+    @*<input type="hidden" asp-route-returnUrl="RegisterModel.ReturnUrl" />*@
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="RegisterModel.SurName"></label><br />
+        <input asp-for="RegisterModel.SurName" />
+    </div>
+    <div>
+        <label asp-for="RegisterModel.Name"></label><br />
+        <input asp-for="RegisterModel.Name" />
+    </div>
+    <div>
+        <label asp-for="RegisterModel.Patronymic"></label><br />
+        <input asp-for="RegisterModel.Patronymic" />
+    </div>
+    <div>
+        <label asp-for="RegisterModel.BirthDay"></label><br />
+        <input asp-for="RegisterModel.BirthDay" />
+    </div>
+    <div>
+        <label asp-for="RegisterModel.Email"></label><br />
+        <input asp-for="RegisterModel.Email" />
+    </div>
+    <div>
+        <label asp-for="RegisterModel.Password"></label><br />
+        <input asp-for="RegisterModel.Password" />
+    </div>
+    <div>
+        <label asp-for="RegisterModel.ConfirmPassword"></label><br />
+        <input asp-for="RegisterModel.ConfirmPassword" />
+    </div>
+    <div>
+        <input type="submit" value="Регистрация" />
+    </div>
+</form>

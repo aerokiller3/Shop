@@ -4,7 +4,7 @@ using Shop.Domain.Models;
 
 namespace Shop.Database
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             :base(options) { }

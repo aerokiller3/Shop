@@ -2,14 +2,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shop.Domain.Models;
 
 namespace Shop.UI.Pages.Accounts
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager)
+        public LoginModel(SignInManager<User> signInManager)
         {
             _signInManager = signInManager;
         }
@@ -27,7 +28,7 @@ namespace Shop.UI.Pages.Accounts
 
             if (result.Succeeded)
             {
-                return RedirectToPage("/Admin/Index");
+                return RedirectToPage("/Index");
             }
             else
             {

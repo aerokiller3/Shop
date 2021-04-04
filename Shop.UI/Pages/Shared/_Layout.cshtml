@@ -5,10 +5,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Shop.UI</title>
+    <title>@ViewData["Title"]Магазин одежды</title>
     <environment include="Development">
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="~/lib/bulma-0.9.0/css/bulma.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </environment>
     <environment include="Production">
         <link href="~/lib/bulma-0.9.0/css/bulma.min.css" rel="stylesheet" />
@@ -35,14 +36,25 @@
                 <div class="navbar-start">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a class="navbar-item" asp-page="/Admin/Index">
-                            Admin
-                        </a>
+                        @if (User.IsInRole("Admin"))
+                         {
+                             <a class="navbar-item" asp-page="/Admin/Index">
+                                 Admin
+                             </a>
+                         }
+                         else
+                         {
+                             <a class="navbar-item" asp-page="/Accounts/PersonalArea">
+                                 <input hidden="hidden" asp-for="@User.Identity.Name"/>
+                                 Личный кабинет
+                             </a>
+                         }
                     }
                 </div>
 
                 <div class="navbar-end">
                     <vc:cart view="Small"></vc:cart>
+                    <a asp-page="/Registration"> Регистрация</a>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a class="navbar-item" asp-page="/Accounts/Logout">Log Out</a>

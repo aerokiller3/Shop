@@ -1,0 +1,22 @@
+﻿@page
+@model Shop.UI.Pages.Accounts.PersonalAreaModel
+@{
+}
+
+<div class="container">
+    <div class="title">Моя учётная запись</div>
+    <div class="columns has-text-centered">
+        <div class="column is-3">
+            <a asp-page="/EditData">
+                <img src="~/images/personalArea/edit-64x64.png" alt="Основные данные" centered />
+                <div>Основные данные</div>
+            </a>
+        </div>
+        <div class="column is-3">
+            <a asp-page="/EditPassword">
+                <img src="~/images/personalArea/password-64x64.png" alt="Изменить свой пароль" />
+                <div>Изменить свой пароль</div>
+            </a>
+        </div>
+    </div>
+</div>

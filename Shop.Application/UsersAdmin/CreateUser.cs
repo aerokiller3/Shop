@@ -1,14 +1,15 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Shop.Domain.Models;
 
 namespace Shop.Application.UsersAdmin
 {
     public class CreateUser
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public CreateUser(UserManager<IdentityUser> userManager)
+        public CreateUser(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -20,9 +21,10 @@ namespace Shop.Application.UsersAdmin
 
         public async Task<bool> Do(Request request)
         {
-            var managerUser = new IdentityUser
+            var managerUser = new User
             {
-                UserName = request.UserName
+                UserName = request.UserName,
+                EmailConfirmed = true
             };
 
             await _userManager.CreateAsync(managerUser, "password");
