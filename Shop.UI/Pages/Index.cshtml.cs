@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Application.Categories;
 using Shop.Application.Products;
 using Shop.Database;
+using SmartBreadcrumbs.Attributes;
 
 namespace Shop.UI.Pages
 {
+    [DefaultBreadcrumb("Главная")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _ctx;

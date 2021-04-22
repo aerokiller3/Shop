@@ -2,12 +2,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Shop.Application;
 using Shop.Application.Users;
 using Shop.Domain.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace Shop.UI.Pages.Accounts
 {
+    [ValidateAntiForgeryToken]
+    [Breadcrumb("Личный кабинет")]
     public class PersonalAreaModel : PageModel
     {
         [BindProperty(SupportsGet = true)]

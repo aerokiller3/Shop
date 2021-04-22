@@ -25,7 +25,7 @@ namespace Shop.UI
 
                     context.Database.EnsureCreated();
 
-                    if (!context.Users.Any())
+                    if (!context.Users.Any(x => x.UserName == "Admin"))
                     {
                         var adminUser = new User()
                         {

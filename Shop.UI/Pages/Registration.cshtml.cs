@@ -37,7 +37,8 @@ namespace Shop.UI.Pages
                 Patronymic = RegisterModel.Patronymic,
                 UserName = RegisterModel.Email,
                 Email = RegisterModel.Email,
-                Birthday = RegisterModel.BirthDay
+                Birthday = RegisterModel.BirthDay,
+                PhoneNumber = RegisterModel.Phone
             };
 
             var result = await userManager.CreateAsync(user, RegisterModel.Password);
@@ -78,6 +79,9 @@ namespace Shop.UI.Pages
         [Required]
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
+        [Required]
+        [Display(Name = "Номер телефона")]
+        public string Phone { get; set; }
 
         [Required]
         [Display(Name = "Электронная почта")]

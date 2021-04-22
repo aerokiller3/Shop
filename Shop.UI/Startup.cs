@@ -10,6 +10,7 @@ using Shop.Database;
 using Shop.Domain.Infrastructure;
 using Shop.Domain.Models;
 using Shop.UI.Infrastructure;
+using SmartBreadcrumbs.Extensions;
 using Stripe;
 
 namespace Shop.UI
@@ -36,6 +37,15 @@ namespace Shop.UI
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                options.TagName = "";
+                options.TagClasses = "";
+                options.OlClasses = "breadcrumbs__ol";
+                options.LiClasses = "breadcrumbs__item";
+                options.ActiveLiClasses = "breadcrumbs__item breadcrumbs__item--active";
+            });
 
             services.ConfigureApplicationCookie(options =>
             {

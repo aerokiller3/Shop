@@ -6,6 +6,7 @@ using Shop.Domain.Models;
 
 namespace Shop.UI.Pages
 {
+    [ValidateAntiForgeryToken]
     public class ConfirmPageModel : PageModel
     {
         public async Task <IActionResult> OnGetAsync([FromServices] UserManager<User> userManager,string userId, string code)

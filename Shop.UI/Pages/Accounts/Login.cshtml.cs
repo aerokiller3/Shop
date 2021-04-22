@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Domain.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace Shop.UI.Pages.Accounts
 {
+    [ValidateAntiForgeryToken]
+    [Breadcrumb("Авторизация")]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;

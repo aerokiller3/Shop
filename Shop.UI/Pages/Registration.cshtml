@@ -3,39 +3,89 @@
 @{
 }
 
-<h2>Регистрация нового пользователя</h2>
-<form method="post" asp-route-returnUrl="@Model.RegisterModel.ReturnUrl">
-    @*<input type="hidden" asp-route-returnUrl="RegisterModel.ReturnUrl" />*@
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="RegisterModel.SurName"></label><br />
-        <input asp-for="RegisterModel.SurName" />
-    </div>
-    <div>
-        <label asp-for="RegisterModel.Name"></label><br />
-        <input asp-for="RegisterModel.Name" />
-    </div>
-    <div>
-        <label asp-for="RegisterModel.Patronymic"></label><br />
-        <input asp-for="RegisterModel.Patronymic" />
-    </div>
-    <div>
-        <label asp-for="RegisterModel.BirthDay"></label><br />
-        <input asp-for="RegisterModel.BirthDay" />
-    </div>
-    <div>
-        <label asp-for="RegisterModel.Email"></label><br />
-        <input asp-for="RegisterModel.Email" />
-    </div>
-    <div>
-        <label asp-for="RegisterModel.Password"></label><br />
-        <input asp-for="RegisterModel.Password" />
-    </div>
-    <div>
-        <label asp-for="RegisterModel.ConfirmPassword"></label><br />
-        <input asp-for="RegisterModel.ConfirmPassword" />
-    </div>
-    <div>
-        <input type="submit" value="Регистрация" />
-    </div>
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+<form method="post">
+    <section class="ftco-section">
+        <div class="container-login">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-2">
+                    <h2 class="heading-section">Регистрация</h2>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                    <div class="wrap d-md-flex">
+
+                        <div class="login-wrap p-4 p-lg-6 text-center d-flex align-items-center order-md-last">
+                            <div class="text w-100">
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Фамилия</label>
+                                    <input type="text" asp-for="RegisterModel.SurName" class="form-control" placeholder="Фамилия" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Имя</label>
+                                    <input type="text" asp-for="RegisterModel.Name" class="form-control" placeholder="Имя" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Отчество</label>
+                                    <input type="text" asp-for="RegisterModel.Patronymic" class="form-control" placeholder="Отчество" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Телефон</label>
+                                    <input type="tel" asp-for="RegisterModel.Phone" class="form-control" placeholder="Телефон" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="login-wrap p-4 p-lg-6 text-center d-flex align-items-center order-md-last">
+                            <div class="text w-100">
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Дата рождения</label>
+                                    <input type="date" asp-for="RegisterModel.BirthDay" class="form-control" placeholder="Дата рождения" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Электронная почта</label>
+                                    <input type="email" asp-for="RegisterModel.Email" class="form-control" placeholder="Электронная почта" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Пароль</label>
+                                    <input type="password" asp-for="RegisterModel.Password" class="form-control" placeholder="Введите пароль" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label">Подтвердите пароль</label>
+                                    <input type="password" asp-for="RegisterModel.ConfirmPassword" class="form-control" placeholder="Введите пароль ещё раз" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br />
+                    <div class="w-100 text-center">
+                        <input class="btn btn-primary btn-outline-white" value="Зарегистрироваться" type="submit"/>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
 </form>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
