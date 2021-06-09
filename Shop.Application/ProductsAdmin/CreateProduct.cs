@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +29,14 @@ namespace Shop.Application.ProductsAdmin
                 await request.Image.CopyToAsync(fileStream);
             }
 
+            var categories = new List<Category>();
+
+            foreach (var categoryId in request.CategoriesId)
+            {
+                var category = _context.Categories.FirstOrDefault(x => x.Id == categoryId);
+                categories.Add(category);
+            }
+
             var product = new Product
             {
                 Name = request.Name,
@@ -35,7 +45,26 @@ namespace Shop.Application.ProductsAdmin
                 Image = fileName
             };
 
+            var categoryProducts = new List<CategoryProduct>();
+
+            foreach (var category in categories)
+            {
+                var line = new CategoryProduct
+                {
+                    ProductId = product.Id,
+                    Product = product,
+
+                    CategoryId = category.Id,
+                    Category = category
+                };
+
+                categoryProducts.Add(line);
+            }
+
+            product.Categories = categoryProducts;
+
             _context.Products.Add(product);
+            _context.CategoryProducts.AddRange(categoryProducts);
 
             await _context.SaveChangesAsync();
 
@@ -44,7 +73,8 @@ namespace Shop.Application.ProductsAdmin
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Value = product.Value
+                Value = product.Value,
+                Categories = product.Categories
             };
         }
 
@@ -54,6 +84,7 @@ namespace Shop.Application.ProductsAdmin
             public string Description { get; set; }
             public decimal Value { get; set; }
             public IFormFile Image { get; set; }
+            public IEnumerable<int> CategoriesId { get; set; }
         }
 
         public class Response
@@ -62,6 +93,7 @@ namespace Shop.Application.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal Value { get; set; }
+            public List<CategoryProduct> Categories { get; set; }
         }
     }
 }

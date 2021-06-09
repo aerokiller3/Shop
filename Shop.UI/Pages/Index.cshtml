@@ -1,61 +1,113 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Главная страница";
 }
 
-<div class="section">
-    <div class="columns is-multiline is-mobile">
-        @{
-            foreach (var p in Model.Products)
-            {
-                <div class="column is-3-desktop is-4-tablet is-6-mobile">
-                    <a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">
-                        <div class="card">
-                            <div class="card-image">
-                                <figure class="image is-4by3">
-                                    @if (string.IsNullOrEmpty(p.Image))
-                                    {
-                                        <img src="~/images/no_image.png"/>
-                                    }
-                                    else
-                                    {
-                                        <img src="/products/images/@p.Image"/>
-                                    }
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                @{
-                                    string cssClass = "";
-                                    string message = "";
-                                    if (p.StockCount == 0)
-                                    {
-                                        cssClass = "is-danger";
-                                        message = "Нет на складе";
-                                    }
-                                    else if (p.StockCount <= 10)
-                                    {
-                                        cssClass = "is-warning";
-                                        message = "Осталось совсем чуть-чтуь";
-                                    }
-                                }
-                                @if (p.StockCount <= 10)
-                                {
-                                    <div class="notification is-paddingless has-text-centered @cssClass">
-                                        @message
-                                    </div>
-                                }
-                                <p class="title is-size-5">
-                                    @p.Name - @p.Value
-                                </p>
-                                <p class="subtitle">
-                                    @p.Description
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            }
+@*<div class="container-cat">
+    <div class="control-group">
+        @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
+        {
+            <label class="text-lg-center">@parent.Title</label>
+           <h4 class="text-center">@parent.Title</h4>
+            <div class="select">
+                <select name="categoryId">
+                    <option value="hide">--Выберите категорию</option>
+                    @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
+                    {
+                        <option name="categoryId" value="@child.Id">@child.Title</option>
+                    }
+                </select>
+                <div class="select__arrow"></div>
+            </div>
         }
+        <button class="btn btn-primary" type="submit" name="categoryId" id="categoryId">Выбрать</button>
+    </div>
+</div>*@ 
+
+<div class="section">
+    <div class="tile is-mobile is-ancestor mr-3">
+
+        <div class="columns is-multiline tile is-3">
+            <form method="post">
+                <div class="container-cat">
+                    <div class="control-group">
+                        <h2>Категории</h2>
+                        @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
+                        {
+                            <label class="text-lg-center">@parent.Title</label>
+                            <div class="select">
+                                <select name="categoryId">
+                                    <option value="hide">--Выберите категорию</option>
+                                    @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
+                                    {
+                                        <option name="categoryId" value="@child.Id">@child.Title</option>
+                                    }
+                                </select>
+                                <div class="select__arrow"></div>
+                            </div>
+                        }
+                        <button class="btn btn-primary" type="submit" name="categoryId" id="categoryId">Выбрать</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="columns is-multiline is-mobile tile is-9 is-parent border-right">
+            @{
+                for (int i = 0; i < 10; i++)
+                {
+                    foreach (var p in Model.Products)
+                    {
+                        <div class="column is-3-desktop is-4-tablet is-6-mobile">
+                            <a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-4by3">
+                                            @if (string.IsNullOrEmpty(p.Image))
+                                            {
+                                                <img src="~/images/no_image.png" />
+                                            }
+                                            else
+                                            {
+                                                <img src="/products/images/@p.Image" />
+                                            }
+                                        </figure>
+                                    </div>
+                                    <div class="card-content">
+                                        @{
+                                            string cssClass = "";
+                                            string message = "";
+                                            if (p.StockCount == 0)
+                                            {
+                                                cssClass = "is-danger";
+                                                message = "Нет на складе";
+                                            }
+                                            else if (p.StockCount <= 10)
+                                            {
+                                                cssClass = "is-warning";
+                                                message = "Осталось совсем чуть-чтуь";
+                                            }
+                                        }
+                                        @if (p.StockCount <= 10)
+                                        {
+                                            <div class="notification is-paddingless has-text-centered @cssClass">
+                                                @message
+                                            </div>
+                                        }
+                                        <p class="title is-size-4">
+                                            @p.Name - @p.Value
+                                        </p>
+                                        <p class="subtitle">
+                                            @p.Description
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+            }
+        </div>
     </div>
 </div>

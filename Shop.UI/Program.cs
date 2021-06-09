@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shop.Database;
+using Shop.Domain.Models;
 
 namespace Shop.UI
 {
@@ -20,20 +21,22 @@ namespace Shop.UI
                 using (var scope = host.Services.CreateScope())
                 {
                     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
                     context.Database.EnsureCreated();
 
-                    if (!context.Users.Any())
+                    if (!context.Users.Any(x => x.UserName == "Admin"))
                     {
-                        var adminUser = new IdentityUser()
+                        var adminUser = new User()
                         {
-                            UserName = "Admin"
+                            UserName = "Admin",
+                            EmailConfirmed = true
                         };
 
-                        var managerUser = new IdentityUser()
+                        var managerUser = new User()
                         {
-                            UserName = "Manager"
+                            UserName = "Manager",
+                            EmailConfirmed = true
                         };
 
                         userManager.CreateAsync(adminUser, "password").GetAwaiter().GetResult();

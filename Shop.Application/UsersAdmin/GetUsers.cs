@@ -18,6 +18,7 @@ namespace Shop.Application.UsersAdmin
             var users = _ctx.Users
                 .Select(x => new UserViewModel
                 {
+                    Id = x.Id,
                     Name = x.UserName,
                     Password = x.PasswordHash
                 })
@@ -29,7 +30,7 @@ namespace Shop.Application.UsersAdmin
 
         public class UserViewModel
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
             public string Name { get; set; }
             public string Password { get; set; }
         }

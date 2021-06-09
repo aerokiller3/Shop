@@ -11,7 +11,8 @@ var app = new Vue({
             name: "Product Name",
             description: "Product Description",
             value: 1.99,
-            image: null
+            image: null,
+            categories: []
         },
         products: []
     },
@@ -30,7 +31,8 @@ var app = new Vue({
                         name: product.name,
                         description: product.description,
                         value: product.value,
-                        image: product.image
+                        image: product.image,
+                        categories: product.categories
                     }
                 })
                 .catch(err => {
@@ -63,6 +65,10 @@ var app = new Vue({
             form.append('request.value', parseFloat(this.productModel.value));
             form.append('request.image', this.productModel.image);
 
+            for (let i = 0; i < this.productModel.categories.length; i++) {
+                form.append('request.categoriesId', this.productModel.categories[i]);
+            }
+
             //for (let i = 0; i < this.images.length; i++) {
             //    form.append('form.images', this.images[i])
             //}
@@ -93,6 +99,11 @@ var app = new Vue({
             form.append('request.description', this.productModel.description);
             form.append('request.value', parseFloat(this.productModel.value));
             form.append('request.image', this.productModel.image);
+
+            for (let i = 0; i < this.productModel.categories.length; i++)
+            {
+                form.append('request.categoriesId', this.productModel.categories[i]);
+            }
 
             axios.put(url,
                     form,

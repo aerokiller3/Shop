@@ -4505,7 +4505,7 @@ fieldset[disabled] .select select:hover {
   color: #3273dc;
   display: flex;
   justify-content: center;
-  padding: 0 0.75em;
+  padding: 0 0em;
 }
 
 .breadcrumb a:hover {
@@ -4515,6 +4515,7 @@ fieldset[disabled] .select select:hover {
 .breadcrumb li {
   align-items: center;
   display: flex;
+    padding: 1em 0 2em 2em;
 }
 
 .breadcrumb li:first-child a {
@@ -4527,10 +4528,10 @@ fieldset[disabled] .select select:hover {
   pointer-events: none;
 }
 
-.breadcrumb li + li::before {
+/*.breadcrumb li + li::before {
   color: #b5b5b5;
   content: "\0002f";
-}
+}*/
 
 .breadcrumb ul,
 .breadcrumb ol {

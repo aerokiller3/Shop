@@ -5,10 +5,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Shop.UI</title>
+    <!--<title>-->@*@ViewData["Title"]Магазин одежды*@<!--</title>-->
     <environment include="Development">
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="~/lib/bulma-0.9.0/css/bulma.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </environment>
     <environment include="Production">
         <link href="~/lib/bulma-0.9.0/css/bulma.min.css" rel="stylesheet" />
@@ -17,11 +18,12 @@
 
 </head>
 <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-black" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item" asp-page="/Index">
                     <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+                    My Shop
                 </a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -35,22 +37,46 @@
                 <div class="navbar-start">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a class="navbar-item" asp-page="/Admin/Index">
-                            Admin
-                        </a>
+                        @if (User.HasClaim("Role", "Manager") || User.HasClaim("Role", "Admin"))
+                        {
+                            <a class="navbar-item" asp-page="/Admin/Index">
+                                Admin
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="navbar-item" asp-page="/Accounts/PersonalArea">
+                                <input hidden="hidden" asp-for="@User.Identity.Name" />
+                                Личный кабинет
+                            </a>
+                        }
                     }
+                    @*<a class="navbar-item">
+                            <form>
+                                <input type="text" placeholder="Что-нибудь ищете?"/>
+                                <input type="submit" value="Найти" />
+                            </form>
+                        </a>*@
                 </div>
 
                 <div class="navbar-end">
-                    <vc:cart view="Small"></vc:cart>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a class="navbar-item" asp-page="/Accounts/Logout">Log Out</a>
                     }
+                    else
+                    {
+                        <a class="navbar-item" asp-page="Accounts/Login" title="Страница входа">
+                            <i class="fa fa-user fa-lg" aria-hidden="true"></i>
+                        </a>
+                    }
+                    <vc:cart view="Small"></vc:cart>
                 </div>
             </div>
         </div>
     </nav>
+
+    <breadcrumb></breadcrumb>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -59,7 +85,7 @@
     </div>
     <footer class="footer">
         <div class="content has-text-centered">
-            <p>Copy rights at shop, <a asp-page="/Accounts/Login">Login</a></p>
+            <p>Copy rights at shop</p>
         </div>
     </footer>
 

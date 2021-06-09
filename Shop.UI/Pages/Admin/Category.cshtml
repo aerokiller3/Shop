@@ -1,0 +1,50 @@
+﻿@page
+@model Shop.UI.Pages.Admin.CategoryModel
+@{
+}
+
+<div id="app" class="container">
+    <div v-if="!editing">
+        <button class="button" @@click="newCategory">Add new Category</button>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>ParentCategoryId</th>
+            </tr>
+            <tr v-for="(category,index) in categories">
+                <td>{{category.id}}</td>
+                <td>{{category.title}}</td>
+                <td>{{category.parentCategoryId}}</td>
+                <td><a @@click="editCategory (category.id, index)">Edit</a></td>
+                <td><a @@click="deleteCategory (category.id, index)">Remove</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div v-else>
+        <div class="field">
+            <label class="label">Category Name</label>
+            <div class="control">
+                <input class="input" v-model="categoryModel.title" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Parent Category id</label>
+            <div class="control">
+                <input class="input" v-model.number="categoryModel.parentCategoryId" />
+            </div>
+        </div>
+        <br />
+
+        <button class="button is-success" @@click="createCategory" v-if="!categoryModel.id">Create Category</button>
+        <button class="button is-warning" @@click="updateCategory" v-else>Update Category</button>
+        <button class="button" @@click="cancel">Cancel</button>
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/categories.js" type="text/javascript"></script>
+}

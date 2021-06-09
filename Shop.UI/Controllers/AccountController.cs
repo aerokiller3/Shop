@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Domain.Models;
 
 namespace Shop.UI.Controllers
 {
@@ -9,14 +10,15 @@ namespace Shop.UI.Controllers
     [Authorize(Policy = "Admin")]
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(SignInManager<IdentityUser> signInManager)
+        public AccountController(SignInManager<User> signInManager)
         {
             _signInManager = signInManager;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

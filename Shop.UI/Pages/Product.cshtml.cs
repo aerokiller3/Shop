@@ -1,16 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Application.Cart;
 using Shop.Application.Products;
 using Shop.Database;
+using SmartBreadcrumbs.Attributes;
 
 namespace Shop.UI.Pages
 {
+    [Breadcrumb("ViewData.Title")]
     public class ProductModel : PageModel
     {
         private readonly ApplicationDbContext _ctx;
@@ -29,6 +27,9 @@ namespace Shop.UI.Pages
         public async Task<IActionResult> OnGet(string name)
         {
             Product = await new GetProduct(_ctx).Do(name.Replace("-", " "));
+
+            ViewData["Title"] = Product.Name;
+
             if (Product == null)
                 return RedirectToPage("Index");
             else

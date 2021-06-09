@@ -1,43 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Shop.Database;
+using Shop.Domain.Models;
 
 namespace Shop.Application.UsersAdmin
 {
     public class DeleteUser
     {
-        //private ApplicationDbContext _ctx;
-        //private UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        //public DeleteUser(ApplicationDbContext ctx, UserManager<IdentityUser> userManager)
-        //{
-        //    _ctx = ctx;
-        //    _userManager = userManager;
-        //}
+        public DeleteUser(UserManager<User> userManager)
+        {
+            _userManager = userManager;
+        }
 
-        //public async Task<bool> Do(string id)
-        //{
-        //    var user = _ctx.Users.FirstOrDefault(x => x.Email == id);
-        //    _ctx.Users.Remove(user);
-        //    await _ctx.SaveChangesAsync();
+        public async Task<bool> Do(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
 
-        //    var managerrUser = new IdentityUser
-        //    {
-        //        UserName = user.UserName
-        //    };
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
 
-        //    await _userManager.DeleteAsync(managerrUser);
+                if (result.Succeeded)
+                {
+                    return true;
+                }
 
-        //    Claim managerClaim = _userManager.GetClaimsAsync(managerrUser);
+                return false;
+            }
 
-        //    await _userManager.RemoveClaimAsync(managerrUser, managerClaim);
-
-        //    return true;
-        //}
+            return false;
+        }
     }
 }

@@ -1,0 +1,38 @@
+﻿@page
+@model Shop.UI.Pages.EditDataModel
+@{
+}
+
+<form method="post">
+
+    <div class="field">
+        <p class="control">
+            <label class="label">Имя</label>
+            <input class="input" type="text" asp-for="User.Name" value="@Model.User.Name" />
+        </p>
+    </div>
+
+    <div class="field">
+        <p class="control">
+            <label class="label">Фамилия</label>
+            <input class="input" type="text" asp-for="User.SurName" value="@Model.User.SurName" />
+        </p>
+    </div>
+
+    <div class="field">
+        <p class="control">
+            <label class="label">Отчество</label>
+            <input class="input" type="text" asp-for="User.Patronymic" value="@Model.User.Patronymic" />
+        </p>
+    </div>
+
+    <div class="field">
+        <p class="control">
+            <label class="label">Почта</label>
+            <input class="input" type="text" asp-for="User.Email" value="@Model.User.Email" />
+        </p>
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Изменить" />
+
+</form>

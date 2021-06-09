@@ -3,8 +3,60 @@
 @{
 }
 
-<form method="post">
-    <input asp-for="Input.Username" />
-    <input asp-for="Input.Password" />
-    <input type="submit" value="Sign In"/>
-</form>
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href="~/css/style.css" rel="stylesheet" />
+
+<section class="ftco-section">
+    <div class="container-login">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <div class="wrap d-md-flex">
+                    <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+                        <div class="text w-100">
+                            <h2>Приветствуем</h2>
+                            <p>У вас нет аккаунта?</p>
+                            <a asp-page="/Registration" class="btn btn-white btn-outline-white">Зарегистрироваться</a>
+                        </div>
+                    </div>
+                    <div class="login-wrap p-4 p-lg-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Авторизация</h3>
+                            </div>
+                            <div class="w-100">
+                                <p class="social-media d-flex justify-content-end">
+                                    <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <form method="post" class="signin-form">
+                            <div class="form-group mb-3">
+                                <label class="label">Электронная почта</label>
+                                <input type="text" asp-for="Input.Username" class="form-control" placeholder="Электронная почта" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label">Пароль</label>
+                                <input type="password" asp-for="Input.Password" class="form-control" placeholder="Пароль" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary submit px-3">Войти</button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="w-50 text-md-right">
+                                    <a asp-page="/ForgotPassword">Забыли пароль?</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/js/popper.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.min.js"></script>
