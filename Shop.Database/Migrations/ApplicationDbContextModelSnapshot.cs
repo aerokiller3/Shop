@@ -210,6 +210,9 @@ namespace Shop.Database.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("OrderRef")
                         .HasColumnType("nvarchar(max)");
 
@@ -225,7 +228,12 @@ namespace Shop.Database.Migrations
                     b.Property<string>("StripeReference")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -469,6 +477,13 @@ namespace Shop.Database.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Shop.Domain.Models.Order", b =>
+                {
+                    b.HasOne("Shop.Domain.Models.User", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Shop.Domain.Models.OrderStock", b =>

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,7 +19,7 @@ namespace Shop.UI.Pages
             _ctx = ctx;
         }
 
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public AddToCart.Request CartViewModel { get; set; }
 
         public GetProduct.ProductViewModel Product { get; set; }
@@ -28,16 +29,20 @@ namespace Shop.UI.Pages
         {
             Product = await new GetProduct(_ctx).Do(name.Replace("-", " "));
 
-            ViewData["Title"] = Product.Name;
-
             if (Product == null)
                 return RedirectToPage("Index");
             else
+            {
+                ViewData["Title"] = Product.Name;
                 return Page();
+            }
         }
 
-        public async Task<IActionResult> OnPost([FromServices] AddToCart addToCart)
+        public async Task<IActionResult> OnPost([FromServices] AddToCart addToCart, string name)
         {
+            Product = await new GetProduct(_ctx).Do(name.Replace("-", " "));
+            ViewData["Title"] = Product.Name;
+            //ViewData["EnoughQty"] = "Такого количества товара нет";
             var stockAdded = await addToCart.Do(CartViewModel);
 
             if (stockAdded)

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Application;
 using Shop.Domain.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace Shop.UI.Pages
 {
+    [Breadcrumb("Регистрация")]
     public class RegistrationModel : PageModel
     {
         [BindProperty]

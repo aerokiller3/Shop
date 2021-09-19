@@ -9,7 +9,7 @@ namespace Shop.Application.Orders
 {
     public class CreateOrder
     {
-        private ApplicationDbContext _ctx;
+        private readonly ApplicationDbContext _ctx;
 
         public CreateOrder(ApplicationDbContext ctx)
         {
@@ -32,6 +32,7 @@ namespace Shop.Application.Orders
             public string PostCode { get; set; }
 
             public List<Stock> Stocks { get; set; }
+            public string UserId { get; set; }
         }
 
         public class Stock
@@ -66,7 +67,8 @@ namespace Shop.Application.Orders
                 {
                     StockId = x.StockId,
                     Qty = x.Qty
-                }).ToList()
+                }).ToList(),
+                UserId = request.UserId
             };
 
             _ctx.Orders.Add(order);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Shop.Domain.Models;
 
 namespace Shop.Domain.Infrastructure
@@ -8,7 +9,7 @@ namespace Shop.Domain.Infrastructure
         string GetId();
         void AddProduct(CartProduct cartProduct);
         void RemoveProduct(int stockId, int qty);
-        IEnumerable<CartProduct> GetCart();
+        IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector);
 
         void AddCustomerInformation(CustomerInformation customerInformation);
         CustomerInformation GetCustomerInformation();

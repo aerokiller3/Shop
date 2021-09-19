@@ -27,6 +27,17 @@ namespace Shop.Application.Categories
                     Products = x.Products
                 });
 
+        public IEnumerable<CategoryViewModel> DoWithoutParent() =>
+            _ctx.Categories
+                .Include(x => x.Products)
+                .ThenInclude(x => x.Product)
+                .Where(x => x.ParentCategoryId != null)
+                .Select(x => new CategoryViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                });
+
         public class CategoryViewModel
         {
             public int Id { get; set; }

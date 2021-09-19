@@ -1,11 +1,13 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Shop.Application.Cart;
 using Shop.Application.Orders;
 using Shop.Database;
+using Shop.Domain.Models;
 using Stripe;
 using GetOrderCart = Shop.Application.Cart.GetOrder;
 
@@ -13,7 +15,7 @@ namespace Shop.UI.Pages.Checkout
 {
     public class PaymentModel : PageModel
     {
-        private ApplicationDbContext _ctx;
+        private readonly ApplicationDbContext _ctx;
         public string PublicKey { get; set; }
 
         public PaymentModel(IConfiguration config, ApplicationDbContext ctx)
@@ -37,7 +39,8 @@ namespace Shop.UI.Pages.Checkout
         public async Task<IActionResult> OnPost(
             string stripeEmail,
             string stripeToken,
-            [FromServices] GetOrderCart getOrder)
+            [FromServices] GetOrderCart getOrder,
+            [FromServices] UserManager<User> userManager)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
@@ -59,6 +62,7 @@ namespace Shop.UI.Pages.Checkout
             });
 
             var sessionId = HttpContext.Session.Id;
+            var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
             await new CreateOrder(_ctx).Do(new CreateOrder.Request
             {
@@ -78,7 +82,8 @@ namespace Shop.UI.Pages.Checkout
                 {
                     StockId = x.StockId,
                     Qty = x.Qty
-                }).ToList()
+                }).ToList(),
+                UserId = user.Id
             });
 
             return RedirectToPage("/Index");

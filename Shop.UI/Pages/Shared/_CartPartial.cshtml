@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Shop.Application.Cart.GetCart.Response>
+
+<div class="column is-6 is-offset-2" id="cart-main">
+    @foreach (var product in Model)
+    {
+        <div class="level">
+            <div class="level-item">
+                <figure class="image is-128x128">
+                    <img src="/products/images/@product.Image" />
+                </figure>
+            </div>
+            <br />
+            <div class="level-item">
+                <p class="title">
+                    @product.Name
+                </p>
+            </div>
+            <div class="level-item">
+                <div class="columns is-gapless is-mobile is-multiline has-text-centered-tablet">
+                    <div class="column is-4">
+                        <button class="button" type="button" onclick="removeOneFromCart(event)" data-stock-id="@product.StockId">
+                            -
+                        </button>
+                    </div>
+                    @*TODO: Разобраться почему стоит не по центру*@
+                    <div class="column is-4 align-self-center" id="stock-qty-@product.StockId">
+                        @product.Qty
+                    </div>
+                    <div class="column is-4">
+                        <button class="button" type="button" onclick="addOneToCart(event)" data-stock-id="@product.StockId">
+                            +
+                        </button>
+                    </div>
+                    <div class="column is-12">
+                        <a class="has-text-danger" onclick="removeAllFromCart(event)" data-stock-id="@product.StockId">
+                            Удалить
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="level-item">
+                @product.Value
+            </div>
+        </div>
+    }
+    <div class="has-text-right">
+        <a asp-page="/Index" class="button is-text">Вернуться к покупкам</a>
+        @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-page="/Checkout/CustomerInformation" class="button is-success">Оформить заказ</a>
+            }
+            else
+            {
+                <a asp-page="/Accounts/Login" class="button is-success">Авторизироваться</a>
+            }
+    </div>
+</div>

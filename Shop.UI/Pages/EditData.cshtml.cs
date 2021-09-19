@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Application;
 using Shop.Application.Users;
 using Shop.Domain.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace Shop.UI.Pages
 {
+    [Breadcrumb("Редактирование персональных данных")]
     public class EditDataModel : PageModel
     {
         [BindProperty(SupportsGet = true)]

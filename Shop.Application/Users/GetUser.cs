@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Shop.Domain.Models;
 
@@ -22,7 +23,9 @@ namespace Shop.Application.Users
                 SurName = user.SurName,
                 Name = user.Name,
                 Patronymic = user.Patronymic,
-                Email = user.Email
+                Email = user.Email,
+                Phone = user.PhoneNumber,
+                Orders = user.Orders
             };
         }
 
@@ -32,6 +35,8 @@ namespace Shop.Application.Users
             public string Name { get; set; }
             public string Patronymic { get; set; }
             public string Email { get; set; }
+            public string Phone { get; set; }
+            public List<Order> Orders { get; set; }
         }
     }
 }

@@ -46,8 +46,7 @@ namespace Shop.Application.Cart
         public Response Do()
         {
             var listOfProducts = _sessionManager
-                .GetCart()
-                .Select(x => new Product
+                .GetCart(x => new Product
                 {
                     ProductId = x.ProductId,
                     StockId = x.StockId,

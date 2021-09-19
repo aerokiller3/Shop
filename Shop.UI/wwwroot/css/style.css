@@ -8402,3 +8402,12 @@ h1, h2, h3, h4, h5,
         border: 1px solid transparent;
         background: #fff;
         color: #000; }
+
+footer .h5title:after, footer h5:after, footer .title_h3:after {
+    position: absolute;
+    content: '';
+    width: 60px;
+    height: 1px;
+    left: 0;
+    bottom: 0;
+}

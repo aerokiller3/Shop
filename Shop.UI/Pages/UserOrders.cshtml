@@ -1,0 +1,34 @@
+﻿@page
+@model Shop.UI.Pages.UserOrdersModel
+@{
+}
+
+<div>
+    @foreach (var order in Model.Orders)
+    {
+        <a asp-page="Order" asp-route-reference="@order.OrderRef">
+            <p>@order.OrderRef - @order.Status</p>
+        </a>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Номер заказа</th>
+                <th>Статус заказа</th>
+                <th>Дата заказа</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var order in Model.Orders)
+                {
+                    <td></td>
+                    <td>@order.OrderRef</td>
+                    <td>@order.Status</td>
+                    <td>@order.OrderDate</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>

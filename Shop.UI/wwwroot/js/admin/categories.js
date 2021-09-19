@@ -68,16 +68,6 @@
                     console.log(err);
                 })
                 .finally(this.resetForm);
-
-            // axios.post('/categories', this.categoryModel)
-            //     .then(res => {
-            //         console.log(res.data);
-            //         this.categories.push(res.data);
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     })
-            //     .finally(this.resetForm);
         },
         updateCategory() {
             this.loading = true;

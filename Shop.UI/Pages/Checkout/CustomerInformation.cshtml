@@ -1,15 +1,15 @@
-﻿@page
+﻿
+@page
 @model Shop.UI.Pages.Checkout.CustomerInformationModel
 @{
 }
-
 
 <div class="columns">
     <div class="column is-6">
         <form method="post">
             <div class="field">
                 <p class="control">
-                    <label class="label">First Name</label>
+                    <label class="label">Имя</label>
                     <input class="input" asp-for="CustomerInformation.FirstName" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.FirstName" />
@@ -17,7 +17,7 @@
 
             <div class="field">
                 <p class="control">
-                    <label class="label">Last Name</label>
+                    <label class="label">Фамилия</label>
                     <input class="input" asp-for="CustomerInformation.LastName" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.LastName" />
@@ -25,7 +25,7 @@
 
             <div class="field">
                 <p class="control">
-                    <label class="label">Phone Number</label>
+                    <label class="label">Номер телефона</label>
                     <input class="input" asp-for="CustomerInformation.PhoneNumber" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.PhoneNumber" />
@@ -33,7 +33,7 @@
 
             <div class="field">
                 <p class="control">
-                    <label class="label">Email</label>
+                    <label class="label">Электронная почта</label>
                     <input class="input" asp-for="CustomerInformation.Email" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.Email" />
@@ -41,7 +41,7 @@
 
             <div class="field">
                 <p class="control">
-                    <label class="label">Address 1</label>
+                    <label class="label">Адрес</label>
                     <input class="input" asp-for="CustomerInformation.Address1" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.Address1" />
@@ -49,14 +49,14 @@
 
             <div class="field">
                 <p class="control">
-                    <label class="label">Address 2</label>
+                    <label class="label">Запасной адрес</label>
                     <input class="input" asp-for="CustomerInformation.Address2" />
                 </p>
             </div>
 
             <div class="field">
                 <p class="control">
-                    <label class="label">City</label>
+                    <label class="label">Город</label>
                     <input class="input" asp-for="CustomerInformation.City" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.City" />
@@ -64,14 +64,14 @@
 
             <div class="field">
                 <p class="control">
-                    <label class="label">PostCode</label>
+                    <label class="label">Почтовый индекс</label>
                     <input class="input" asp-for="CustomerInformation.PostCode" />
                 </p>
                 <span class="help is-warning" asp-validation-for="CustomerInformation.PostCode" />
             </div>
 
             <div class="field">
-                <button class="button is-success" type="submit">Submit</button>
+                <button class="button is-success" type="submit">Перейти к оплате</button>
             </div>
         </form>
     </div>
@@ -79,3 +79,78 @@
         <vc:cart view="Default"></vc:cart>
     </div>
 </div>
+
+<div class="container">
+    <div id="forpvz" style="width: 100%; height: 600px;"></div>
+</div>
+
+<script type="text/javascript">
+    var ourWidjet = new ISDEKWidjet({
+        defaultCity: 'Екатеринбург', //какой город отображается по умолчанию
+        cityFrom: 'Екатеринбург', // из какого города будет идти доставка
+        country: 'Россия', // можно выбрать страну, для которой отображать список ПВЗ
+        link: 'forpvz', // id элемента страницы, в который будет вписан виджет
+        apikey: 'da08938a-a69a-4bbb-8b71-f6e4667cc2ec' // ключ для корректной работы Яндекс.Карт, получить необходимо тут
+    });
+</script>
+
+@*<script type="text/javascript">
+        var widjet = new ISDEKWidjet({
+            showWarns: true,
+            showErrors: true,
+            showLogs: true,
+            hideMessages: false,
+            path: 'https://widget.cdek.ru/widget/scripts/',
+            servicepath: 'https://widget.cdek.ru/widget/scripts/service.php', //ссылка на файл service.php на вашем сайте
+            templatepath: 'https://widget.cdek.ru/widget/scripts/template.php',
+            choose: true,
+            popup: true,
+            country: 'Россия',
+            defaultCity: 'Екатерибург',
+            cityFrom: 'Омск',
+            link: false,
+            hidedress: true,
+            hidecash: true,
+            hidedelt: false,
+            detailAddress: true,
+            region: true,
+            apikey: '',
+            goods: [{
+                length: 10,
+                width: 10,
+                height: 10,
+                weight: 1
+            }],
+            onReady: onReady,
+            onChoose: onChoose,
+            onChooseProfile: onChooseProfile,
+            onCalculate: onCalculate
+        });
+
+        function onReady() {
+            alert('Виджет загружен');
+        }
+
+        function onChoose(wat) {
+            alert(
+                'Выбран пункт выдачи заказа ' + wat.id + "\n" +
+                'цена ' + wat.price + "\n" +
+                'срок ' + wat.term + " дн.\n" +
+                'город ' + wat.cityName + ', код города ' + wat.city
+            );
+        }
+
+        function onChooseProfile(wat) {
+            alert(
+                'Выбрана доставка курьером в город ' + wat.cityName + ', код города ' + wat.city + "\n" +
+                'цена ' + wat.price + "\n" +
+                'срок ' + wat.term + ' дн.'
+            );
+        }
+
+        function onCalculate(wat) {
+            alert('Расчет стоимости доставки произведен');
+        }
+
+    </script>*@
+

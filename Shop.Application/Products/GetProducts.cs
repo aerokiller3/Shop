@@ -77,6 +77,29 @@ namespace Shop.Application.Products
             return products;
         }
 
+        public IEnumerable<ProductViewModel> ProductsFromCategory(int categoryId)
+        {
+            if (categoryId == 0)
+                return null;
+
+            var products = _ctx.Categories
+                .Where(c => categoryId.Equals(c.Id))
+                .SelectMany(c => c.Products)
+                .Select(x => new ProductViewModel
+                {
+                    Name = x.Product.Name,
+                    Description = x.Product.Description,
+                    Value = $"{x.Product.Value:N2}",
+                    Image = x.Product.Image,
+
+                    StockCount = x.Product.Stock.Sum(s => s.Qty),
+                })
+                .Distinct()
+                .ToList();
+
+            return products;
+        }
+
         public class ProductViewModel
         {
             public string Name { get; set; }

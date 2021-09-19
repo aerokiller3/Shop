@@ -32,6 +32,13 @@
             <input class="input" type="text" asp-for="User.Email" value="@Model.User.Email" />
         </p>
     </div>
+    
+    <div class="field">
+        <p class="control">
+            <label class="label">Номер телефона</label>
+            <input class="input" type="tel" asp-for="User.Phone" value="@Model.User.Phone"/>
+        </p>
+    </div>
 
     <input class="btn btn-primary" type="submit" value="Изменить" />
 

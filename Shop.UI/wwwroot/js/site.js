@@ -27,3 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+var categoryProducts = function(e) {
+    var categoryId = e.target.dataset.categoryId;
+    axios.get(`${categoryId}`)
+        .then(res => {
+            console.log(categoryId);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}

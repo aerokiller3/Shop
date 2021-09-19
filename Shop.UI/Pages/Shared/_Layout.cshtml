@@ -5,28 +5,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--<title>-->@*@ViewData["Title"]Магазин одежды*@<!--</title>-->
+    <title>YouRD Shop</title>
     <environment include="Development">
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="~/lib/bulma-0.9.0/css/bulma.css" rel="stylesheet" />
+        <link href="~/css/simple-line-icons.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </environment>
     <environment include="Production">
         <link href="~/lib/bulma-0.9.0/css/bulma.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/css/simple-line-icons.css" rel="stylesheet" />
     </environment>
-
+    <script id="ISDEKscript" type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" charset="utf-8"></script>
 </head>
 <body>
     <nav class="navbar is-black" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" asp-page="/Index">
-                    <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-                    My Shop
+                <a class="navbar-item" href="/">
+                    <img src="~/images/Логотип1.jpg" width="40" height="40" alt="YouRD.Shop"/>
                 </a>
 
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -35,6 +36,22 @@
 
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
+
+                    <a class="navbar-item" href="/">
+                        Главная
+                    </a>
+
+                    <a class="navbar-item">
+                        О нас
+                    </a>
+
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            Категории
+                        </a>
+                        <vc:category></vc:category>
+                    </div>
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         @if (User.HasClaim("Role", "Manager") || User.HasClaim("Role", "Admin"))
@@ -62,6 +79,7 @@
                 <div class="navbar-end">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <vc:cart view="Small"></vc:cart>
                         <a class="navbar-item" asp-page="/Accounts/Logout">Log Out</a>
                     }
                     else
@@ -69,8 +87,8 @@
                         <a class="navbar-item" asp-page="Accounts/Login" title="Страница входа">
                             <i class="fa fa-user fa-lg" aria-hidden="true"></i>
                         </a>
+                        <vc:cart view="Small"></vc:cart>
                     }
-                    <vc:cart view="Small"></vc:cart>
                 </div>
             </div>
         </div>
@@ -84,16 +102,128 @@
         </main>
     </div>
     <footer class="footer">
-        <div class="content has-text-centered">
-            <p>Copy rights at shop</p>
+
+        <div class="bd-footer-links">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-3">
+                        <p class="bd-footer-link-title">Информация</p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Доставка
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Оплата
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Контактные данные
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Гарантии
+                            </a>
+                        </p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="bd-footer-link-title">Личный кабинет</p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="bd-footer-link">
+                                <a asp-page="/Accounts/PersonalArea">
+                                    Личный кабинет
+                                </a>
+                            </p>
+
+                            <p class="bd-footer-link">
+                                <a class="bd-footer-link" asp-page="/UserOrders">
+                                    История заказов
+                                </a>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="bd-footer-link">
+                                <a asp-page="/Accounts/Login">
+                                    Личный кабинет
+                                </a>
+                            </p>
+
+                            <p class="bd-footer-link">
+                                <a class="bd-footer-link" asp-page="/Accounts/Login">
+                                    История заказов
+                                </a>
+                            </p>
+                        }
+                    </div>
+                    <div class="column is-3">
+                        <p class="bd-footer-link-title">Дополнительно</p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Возврат товара
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Таблица размеров
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Политика конфиденциальности
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Гарантии
+                            </a>
+                        </p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="bd-footer-link-title">Контакты</p>
+
+                        <p class="bd-footer-link">
+                            <i class="fa fa-calendar fa-lg"></i>
+                            <span>
+                                ПН-ВС с 10:00 до 22:00 по мск.
+                            </span>
+                        </p>
+
+                        <p class="bd-footer-link">
+                            <i class="fa fa-map-marker fa-2x"></i>
+                            <a asp-page="">
+                                Оплата
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="">
+                                Контактные данные
+                            </a>
+                        </p>
+                        <p class="bd-footer-link">
+                            <a asp-page="/Garanty">
+                                Гарантии
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </footer>
 
     <environment include="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://use.fontawesome.com/e942328e95.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </environment>
     <environment include="Production">
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://use.fontawesome.com/e942328e95.js"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

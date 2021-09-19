@@ -1,5 +1,7 @@
 ﻿using Shop.Application.OrdersAdmin;
 using Shop.Application.Cart;
+using Shop.Application.Categories;
+using Shop.Application.Products;
 using Shop.Application.UsersAdmin;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -18,6 +20,8 @@ namespace Microsoft.Extensions.DependencyInjection
             @this.AddTransient<Shop.Application.OrdersAdmin.GetOrder>();
             @this.AddTransient<GetOrders>();
             @this.AddTransient<UpdateOrder>();
+            @this.AddTransient<GetCategories>();
+            @this.AddTransient<GetProducts>();
 
             @this.AddTransient<CreateUser>();
 

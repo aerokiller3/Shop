@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Shop.Application.Categories.GetCategories.CategoryViewModel>
+
+@{
+
+}
+
+
+<div class="navbar-dropdown" onclick="categoryProducts(event)">
+    @foreach (var category in Model)
+    {
+        <a class="navbar-item" data-category-id="@category.Id" asp-page="/Index" asp-route-categoryId="@category.Id">
+            @category.Title
+        </a>
+    }
+</div>

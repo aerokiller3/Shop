@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shop.Domain.Models;
+using SmartBreadcrumbs.Attributes;
 
 
 //TODO: ПРОВЕРИТЬ!!!
 namespace Shop.UI.Pages
 {
+    [Breadcrumb("Изменение пароля")]
     public class EditPasswordModel : PageModel
     {
         [BindProperty(SupportsGet = true)]

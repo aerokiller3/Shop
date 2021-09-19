@@ -1,8 +1,11 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 using Shop.Application.Cart;
+using Shop.Domain.Models;
 
 namespace Shop.UI.Pages.Checkout
 {
@@ -18,9 +21,13 @@ namespace Shop.UI.Pages.Checkout
         [BindProperty]
         public AddCustomerInformation.Request CustomerInformation { get; set; }
 
-        public IActionResult OnGet([FromServices] GetCustomerInformation getCustomerInformation)
+        public async Task <IActionResult> OnGet(
+            [FromServices] GetCustomerInformation getCustomerInformation,
+            [FromServices] UserManager<User> userManager)
         {
             var information = getCustomerInformation.Do();
+
+            var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
             if (information == null)
             {
@@ -28,10 +35,10 @@ namespace Shop.UI.Pages.Checkout
                 {
                     CustomerInformation = new AddCustomerInformation.Request
                     {
-                        FirstName = "A",
-                        LastName = "A",
-                        Email = "a@ays.com",
-                        PhoneNumber = "11",
+                        FirstName = user.Name,
+                        LastName = user.SurName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
                         Address1 = "A",
                         Address2 = "A",
                         City = "A",

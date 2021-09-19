@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -66,16 +67,16 @@ namespace Shop.UI.Infrastructure
             _session.SetString("cart", stringObject);
         }
 
-        public IEnumerable<CartProduct> GetCart()
+        public IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector)
         {
             var stringObject = _session.GetString("cart");
 
             if (string.IsNullOrEmpty(stringObject))
-                return new List<CartProduct>();
+                return new List<TResult>();
 
             var cartList = JsonConvert.DeserializeObject<IEnumerable<CartProduct>>(stringObject);
 
-            return cartList;
+            return cartList.Select(selector);
         }
 
         public void AddCustomerInformation(CustomerInformation customer)

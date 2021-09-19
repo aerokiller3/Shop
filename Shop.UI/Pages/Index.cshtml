@@ -1,37 +1,37 @@
-﻿@page
+﻿@page "{categoryId?}"
 @model IndexModel
 @{
     ViewData["Title"] = "Главная страница";
 }
 
-@*<div class="container-cat">
-    <div class="control-group">
-        @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
-        {
-            <label class="text-lg-center">@parent.Title</label>
-           <h4 class="text-center">@parent.Title</h4>
-            <div class="select">
-                <select name="categoryId">
-                    <option value="hide">--Выберите категорию</option>
-                    @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
-                    {
-                        <option name="categoryId" value="@child.Id">@child.Title</option>
-                    }
-                </select>
-                <div class="select__arrow"></div>
-            </div>
-        }
-        <button class="btn btn-primary" type="submit" name="categoryId" id="categoryId">Выбрать</button>
-    </div>
-</div>*@ 
-
-<div class="section">
+<div class="section-sm">
     <div class="tile is-mobile is-ancestor mr-3">
-
         <div class="columns is-multiline tile is-3">
-            <form method="post">
+            <form method="post" asp-page-handler="CategoriesProducts">
                 <div class="container-cat">
                     <div class="control-group">
+
+                        <div class="field has-addons has-addons-right">
+
+                            <p class="control">
+                                <input class="input" type="text" placeholder="Найти">
+                            </p>
+                            <p class="control">
+                                <a class="button">
+                                    <i class="fas fa-instagram"></i>
+                                </a>
+                            </p>
+
+                            @*<div class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Найти" />
+                                </div>
+                                <div class="control">
+                                    <a class="button is-info" style="color: black">
+                                        <i class="fa fa-search fa-lg" style="color: orange" aria-hidden="true"></i>
+                                    </a>
+                                </div>*@
+                        </div>
+
                         <h2>Категории</h2>
                         @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
                         {
@@ -44,10 +44,9 @@
                                         <option name="categoryId" value="@child.Id">@child.Title</option>
                                     }
                                 </select>
-                                <div class="select__arrow"></div>
                             </div>
                         }
-                        <button class="btn btn-primary" type="submit" name="categoryId" id="categoryId">Выбрать</button>
+                        <button class="btn btn-primary" type="submit" @*name="categoryId" id="categoryId"*@>Выбрать</button>
                     </div>
                 </div>
             </form>
@@ -55,7 +54,9 @@
 
         <div class="columns is-multiline is-mobile tile is-9 is-parent border-right">
             @{
-                for (int i = 0; i < 10; i++)
+                //for (int i = 0; i < 10; i++)
+                //{
+                if (Model.Products.Any())
                 {
                     foreach (var p in Model.Products)
                     {
@@ -63,7 +64,7 @@
                             <a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">
                                 <div class="card">
                                     <div class="card-image">
-                                        <figure class="image is-4by3">
+                                        <figure class="image is-1by1">
                                             @if (string.IsNullOrEmpty(p.Image))
                                             {
                                                 <img src="~/images/no_image.png" />
@@ -99,7 +100,7 @@
                                             @p.Name - @p.Value
                                         </p>
                                         <p class="subtitle">
-                                            @p.Description
+                                            @*@p.Description*@
                                         </p>
                                     </div>
                                 </div>
@@ -107,6 +108,11 @@
                         </div>
                     }
                 }
+                else
+                {
+                    <p>Таких товаров нет</p>
+                }
+                //}
             }
         </div>
     </div>
