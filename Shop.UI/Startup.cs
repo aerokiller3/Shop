@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shop.Database;
 using Shop.Domain.Infrastructure;
+using Shop.Domain.LocalizeErrors;
 using Shop.Domain.Models;
 using Shop.UI.Infrastructure;
 using SmartBreadcrumbs.Extensions;
@@ -36,7 +37,8 @@ namespace Shop.UI
                     options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<RussianIdentityErrorsDescriber>();
 
             services.AddBreadcrumbs(GetType().Assembly, options =>
             {
@@ -85,8 +87,7 @@ namespace Shop.UI
             services.AddTransient<IStockManager, StockManager>();
             services.AddScoped<ISessionManager, SessionManager>();
 
-            StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
-            //services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
             services.AddApplicationServices();
         }

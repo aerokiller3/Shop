@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Application.OrdersAdmin;
+using Shop.Application.Admin.OrdersAdmin;
 
 namespace Shop.UI.Controllers
 {

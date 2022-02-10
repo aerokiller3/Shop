@@ -6,6 +6,7 @@ var app = new Vue({
         editing: false,
         loading: false,
         objectIndex: 0,
+        form: null,
         productModel: {
             id: 0,
             name: "Product Name",
@@ -14,7 +15,8 @@ var app = new Vue({
             image: null,
             categories: []
         },
-        products: []
+        products: [],
+        images: []
     },
     mounted() {
         this.getProducts();
@@ -33,7 +35,7 @@ var app = new Vue({
                         value: product.value,
                         image: product.image,
                         categories: product.categories
-                    }
+                    };
                 })
                 .catch(err => {
                     console.log(err);
@@ -63,23 +65,23 @@ var app = new Vue({
             form.append('request.name', this.productModel.name);
             form.append('request.description', this.productModel.description);
             form.append('request.value', parseFloat(this.productModel.value));
-            form.append('request.image', this.productModel.image);
+            //form.append('request.image', this.productModel.image);
 
             for (let i = 0; i < this.productModel.categories.length; i++) {
                 form.append('request.categoriesId', this.productModel.categories[i]);
             }
 
-            //for (let i = 0; i < this.images.length; i++) {
-            //    form.append('form.images', this.images[i])
-            //}
+            for (let i = 0; i < this.images.length; i++) {
+                form.append('request.images', this.images[i]);
+            }
 
             axios.post('/products',
-                    form,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
+                form,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
                 .then(() => this.getProducts())
                 .catch(err => {
                     console.log(err);
@@ -98,20 +100,22 @@ var app = new Vue({
             form.append('request.name', this.productModel.name);
             form.append('request.description', this.productModel.description);
             form.append('request.value', parseFloat(this.productModel.value));
-            form.append('request.image', this.productModel.image);
+            //form.append('request.image', this.productModel.image);
 
-            for (let i = 0; i < this.productModel.categories.length; i++)
-            {
+            for (let i = 0; i < this.images.length; i++) {
+                form.append('request.images', this.images[i]);
+            }
+
+            for (let i = 0; i < this.productModel.categories.length; i++) {
                 form.append('request.categoriesId', this.productModel.categories[i]);
             }
 
-            axios.put(url,
-                    form,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
+            axios.put(url, form,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
                 .then(() => this.getProducts())
                 .catch(err => {
                     console.log(err);
@@ -135,11 +139,31 @@ var app = new Vue({
         newProduct() {
             this.editing = true;
             this.productModel.id = 0;
+            this.form = {
+                name: "",
+                description: "",
+                series: "",
+                stockDescription: "",
+            };
         },
         editProduct(id, index) {
             this.objectIndex = index;
             this.getProduct(id);
             this.editing = true;
+        },
+        addImage(event) {
+            const file = event.target.files[0];
+            this.images.push(file);
+        },
+        moveImageUp(index) {
+            const image = this.form.images[index];
+            this.images.splice(index, 1);
+            this.images.splice(index - 1, 0, image);
+        },
+        moveImageDown(index) {
+            const image = this.form.images[index];
+            this.images.splice(index, 1);
+            this.images.splice(index + 1, 0, image);
         },
         //editProduct(id) {
         //    this.loading = true;
@@ -159,6 +183,9 @@ var app = new Vue({
         }
     },
     computed: {
+        fileImages() {
+            return this.images.map(x => URL.createObjectURL(x));
+        }
     }
 });
 Vue.config.devtools = true;

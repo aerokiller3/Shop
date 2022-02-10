@@ -18,8 +18,11 @@ namespace Shop.UI.ViewComponents
             {
                 var totalValue = _getCart.Do().Sum(x => x.RealValue * x.Qty);
 
-                //TODO: Разобраться с return
                 return View(view, $"{totalValue}");
+            }
+            else if(view == "MobileCart")
+            {
+                return View(view, _getCart.Do());
             }
 
             return View(view, _getCart.Do());

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Application.CategoriesAdmin;
+using Shop.Application.Admin.CategoriesAdmin;
 using Shop.Database;
 
 namespace Shop.UI.Controllers

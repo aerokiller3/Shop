@@ -1,9 +1,8 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Application.ProductsAdmin;
+using Shop.Application.Admin.ProductsAdmin;
 using Shop.Database;
 
 namespace Shop.UI.Controllers
@@ -37,12 +36,17 @@ namespace Shop.UI.Controllers
         public async Task<IActionResult> UpdateProduct([FromForm] UpdateProduct.Request request) =>
             Ok((await new UpdateProduct(_ctx).Do(request)));
 
-        [HttpGet("images/{name}")]
-        [AllowAnonymous]
-        public IActionResult GetImage(string name)
-        {
-            var savePath = Path.Combine(_env.WebRootPath, "images", name);
-            return new FileStreamResult(new FileStream(savePath, FileMode.Open, FileAccess.Read), "image/jpg");
-        }
+        //[HttpGet("images/{name*}")]
+        //[AllowAnonymous]
+        //public IEnumerable<IActionResult> GetImage(List<string> name)
+        //{
+        //    foreach (var img in name)
+        //    {
+        //        var savePath = Path.Combine(_env.WebRootPath, "images", img);
+        //        var picture = new FileStreamResult(new FileStream(savePath, FileMode.Open, FileAccess.Read),
+        //            "image/jpg");
+        //        yield return picture;
+        //    }
+        //}
     }
 }

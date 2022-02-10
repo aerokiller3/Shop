@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Shop.Application.Cart.GetCart.Response>
+
+@{
+
+}
+
+@foreach (var product in Model)
+{
+    <li>
+        <a asp-page="Product1" asp-route-name="@product.Name.Replace(" ", "-")" class="image">
+            <img src="/products/images/@product.Image"
+                 alt="@product.Name"/>
+        </a>
+        <div class="content">
+            <a class="title">@product.Name</a>
+            <span class="quantity-price">@product.Qty x <span class="amount">@product.Value</span></span>
+            <a onclick="removeAllFromCart(event)" data-stock-id="@product.StockId" class="remove">×</a>
+        </div>
+    </li>
+}
+
+<script>
+    var removeAllFromCart = function(e) {
+        var stockId = e.target.dataset.stockId;
+        var id = "stock-qty-" + stockId;
+        var el = document.getElementById(id);
+        var qty = parseInt(el.innerText);
+        removeFromCart(stockId, qty);
+    }
+
+    var removeFromCart = function(stockId, qty) {
+        axios.post("/Cart/Remove/" + stockId + '/' + qty)
+            .then(res => {
+                updateCart();
+            })
+            .catch(err => {
+                alert(err.error);
+            });
+    }
+
+    var updateCart = function() {
+        axios.get('/Cart/GetCartComponent')
+            .then(res => {
+                var html = res.data;
+                var el = document.getElementById('cart-nav');
+
+                el.outerHTML = html;
+            });
+    }
+</script>

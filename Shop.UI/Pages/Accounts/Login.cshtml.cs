@@ -25,7 +25,7 @@ namespace Shop.UI.Pages.Accounts
         {
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, false, false);
 
@@ -38,11 +38,11 @@ namespace Shop.UI.Pages.Accounts
                 return Page();
             }
         }
-    }
 
-    public class LoginViewModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public class LoginViewModel
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+        }
     }
 }

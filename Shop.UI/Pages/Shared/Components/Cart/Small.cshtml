@@ -4,7 +4,9 @@
 
 }
 
-
-<a class="navbar-item" asp-page="/Cart" id="cart-nav">
-    Корзина @Model
+<a href="#offcanvas-cart"
+   class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
+    <i class="pe-7s-shopbag"></i>
+    @*<span class="header-action-num">@Model</span>*@
+     <span class="cart-amount">@Model</span> 
 </a>

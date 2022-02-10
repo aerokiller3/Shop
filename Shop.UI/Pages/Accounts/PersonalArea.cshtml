@@ -3,29 +3,141 @@
 @{
 }
 
-<div class="container">
-    <div class="title">Моя учётная запись</div>
-    <div class="columns has-text-centered">
-        <div class="column is-3">
-            <a asp-page="/EditData">
-                <img src="~/images/personalArea/edit-64x64.png" alt="Основные данные" centered />
-                <div>Основные данные</div>
-            </a>
+@*<div class="container">
+        <div class="title">Моя учётная запись</div>
+        <div class="columns has-text-centered">
+            <div class="column is-3">
+                <a asp-page="/EditData">
+                    <img src="~/images/personalArea/edit-64x64.png" alt="Основные данные" centered />
+                    <div>Основные данные</div>
+                </a>
+            </div>
+            <div class="column is-3">
+                <a asp-page="/EditPassword">
+                    <img src="~/images/personalArea/password-64x64.png" alt="Изменить свой пароль" />
+                    <div>Изменить свой пароль</div>
+                </a>
+            </div>
         </div>
-        <div class="column is-3">
-            <a asp-page="/EditPassword">
-                <img src="~/images/personalArea/password-64x64.png" alt="Изменить свой пароль" />
-                <div>Изменить свой пароль</div>
-            </a>
+        <div class="title">Мои заказы</div>
+        <div class="columns has-text-centered">
+            <div class="column is-3">
+                <a asp-page="/UserOrders">
+                    <img src="~/images/personalArea/order-64x64.png" alt="История заказов"/>
+                    <div>История заказов</div>
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="title">Мои заказы</div>
-    <div class="columns has-text-centered">
-        <div class="column is-3">
-            <a asp-page="/UserOrders">
-                <img src="~/images/personalArea/order-64x64.png" alt="История заказов"/>
-                <div>История заказов</div>
-            </a>
+    </div>*@
+
+<div class="pt-100px pb-100px">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-3 col-md-3">
+                <div class="dashboard_tab_button">
+                    <ul role="tablist" class="nav flex-column">
+                        <li><a href="#account-details" class="nav-link active" data-bs-toggle="tab">Основные данные</a></li>
+                        <li><a href="#change-password" class="nav-link" data-bs-toggle="tab">Изменение пароля</a></li>
+                        <li><a href="#orders" class="nav-link" data-bs-toggle="tab">История заказов</a></li>
+                        <li><a class="nav-link" asp-page="/Accounts/Logout">Выйти</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-9 col-md-9">
+                <div class="tab-content dashboard_content">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="info-message"></div>
+                        <div class="tab-pane fade show active" id="account-details">
+                            <h4>Ваши основные данные</h4>
+                            <div>
+                                <div class="login-form-container">
+                                    <div class="account_login_form">
+                                        <div class="default-form-box">
+                                            <label>Фамилия</label>
+                                            <input class="input" type="text" asp-for="User.SurName" value="@Model.User.SurName" />
+                                        </div>
+                                        <div class="default-form-box">
+                                            <label>Имя</label>
+                                            <input class="input" type="text" asp-for="User.Name" value="@Model.User.Name" />
+                                        </div>
+                                        <div class="default-form-box">
+                                            <label>Отчество</label>
+                                            <input class="input" type="text" asp-for="User.Patronymic" value="@Model.User.Patronymic" />
+                                        </div>
+                                        <div class="default-form-box">
+                                            <label>Электронная почта</label>
+                                            <input class="input" type="email" asp-for="User.Email" value="@Model.User.Email" />
+                                        </div>
+                                        <div class="default-form-box">
+                                            <label>Мобильный телефон</label>
+                                            <input class="input" type="tel" asp-for="User.Phone" value="@Model.User.Phone" />
+                                        </div>
+                                        <input class="btn btn-primary" type="submit" value="Изменить" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="change-password">
+                            <h4>Изменение текущего пароля</h4>
+                            <div>
+                                <div class="login-form-container">
+                                    <div class="account_login_form">
+                                        <div class="default-form-box">
+                                            <label>Старый пароль</label>
+                                            <input class="input" type="password" asp-for="User.OldPassword" />
+                                        </div>
+                                        <div class="default-form-box">
+                                            <label>Новый пароль</label>
+                                            <input class="input" type="password" asp-for="User.NewPassword" />
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Изменить" asp-page-handler="ChangePassword" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="orders">
+                            <h4>Ваши заказы</h4>
+                            <div class="table_page table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Заказ</th>
+                                            <th>Дата</th>
+                                            <th>Статус</th>
+                                            <th>Стоимость</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var order in Model?.Order)
+                                        {
+                                            <tr>
+                                                <td>@order.OrderRef</td>
+                                                <td>@order.OrderDate</td>
+                                                <td>@order.Status</td>
+                                                <td>13000 руб.</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+@if (ViewData["Message"] != null)
+{
+    <script type="text/javascript">
+        function set_message() {
+            var $item = '<span class="text-success">${@ViewData["Message"]}</span>';
+            console.log($item);
+            $item.appendTo(('.info-message')).delay(3000).slideUp(200, function(){
+                $item.remove();
+            });
+        }
+    </script>
+}

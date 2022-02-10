@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Shop.Domain.Models;
@@ -37,6 +38,8 @@ namespace Shop.Application.Users
             public string Email { get; set; }
             public string Phone { get; set; }
             public List<Order> Orders { get; set; }
+            public string OldPassword { get; set; }
+            public string NewPassword { get; set; }
         }
     }
 }

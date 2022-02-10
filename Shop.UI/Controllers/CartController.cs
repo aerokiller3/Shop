@@ -60,11 +60,17 @@ namespace Shop.UI.Controllers
         }
 
         [HttpGet]
+        public ViewResult GetMobileCartComponent([FromServices] GetCart getCart)
+        {
+            return View("Shared/Components/Cart/MobileCart", getCart.Do());
+        }
+
+        [HttpGet]
         public IActionResult GetCartMain([FromServices] GetCart getCart)
         {
             var cart = getCart.Do();
 
-            return PartialView("_CartPartial", cart);
+            return PartialView("_CartPartial1", cart);
         }
     }
 }

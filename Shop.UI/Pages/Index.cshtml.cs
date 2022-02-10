@@ -31,8 +31,6 @@ namespace Shop.UI.Pages
 
         public void OnGet(int categoryId)
         {
-            var url1 = Request.Headers["Referer"].ToString();
-
             Categories = new GetCategories(_ctx).Do();
             Products = new GetProducts(_ctx).Do();
             ProductsFromCategory = new GetProducts(_ctx).ProductsFromCategory(categoryId);

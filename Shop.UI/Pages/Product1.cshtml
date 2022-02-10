@@ -1,0 +1,192 @@
+﻿@page "{name}"
+@model Shop.UI.Pages.Product1Model
+@{
+    Layout = "Shared/_Layout";
+}
+
+<div class="pt-100px pb-100px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
+                <div class="swiper-container zoom-top">
+                    <div class="swiper-wrapper">
+                        @foreach (var img in Model.Product.Image)
+                        {
+                            <div class="swiper-slide zoom-image-hover">
+                                <img class="img-responsive m-auto" src="/images/@img" alt=""/>
+                            </div>
+                        }
+
+                        @*<div class="swiper-slide zoom-image-hover">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
+                        </div>
+                        <div class="swiper-slide zoom-image-hover">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
+                        </div>
+                        <div class="swiper-slide zoom-image-hover">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
+                        </div>
+                        <div class="swiper-slide zoom-image-hover">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
+                        </div>*@
+                    </div>
+                </div>
+
+                <div class="swiper-container zoom-thumbs mt-3 mb-3">
+                    <div class="swiper-wrapper">
+                        
+                        @foreach (var img in Model.Product.Image)
+                        {
+                            <div class="swiper-slide">
+                                <img class="img-responsive m-auto" src="/images/@img" width="100" height="134" alt=""/>
+                            </div>
+                        }
+
+                        @*<div class="swiper-slide">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
+                                 alt="" width="100" height="134">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
+                                 alt="" width="100" height="134">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
+                                 alt="" width="100" height="134">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
+                                 alt="" width="100" height="134">
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="product-details-content quickview-content">
+                    <h2>@Model.Product.Name</h2>
+                    <div class="pricing-meta">
+                        <ul>
+                            <li class="old-price not-cut">@Model.Product.Value</li>
+                        </ul>
+                    </div>
+
+                    <form method="post">
+                        <div class="pro-details-size-info d-flex align-items-center">
+                            <span style="padding-right: 15px">Размеры  </span>
+                            <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)" class="pro-details-size select">
+                                @*<option disabled="disabled" selected="selected">Выберите размер</option>*@
+                                @foreach (var stock in Model.Product.Stock)
+                                {
+                                    bool disabled = stock.Qty <= 0;
+
+                                    <option value="@stock.Id" disabled="@disabled">@stock.Description</option>
+                                }
+
+                            </select>
+                        </div>
+                        <p class="m-0">
+                            @Model.Product.Description
+                        </p>
+
+                        <div class="pro-details-quality">
+                            <div class="cart-plus-minus">
+                                <input class="cart-plus-minus-box" asp-for="CartViewModel.Qty" value="0" min="1"/>
+                            </div>
+                            <div class="pro-details-cart">
+                                <button class="add-cart" href="#">
+                                    Add To
+                                    Cart
+                                </button>
+                            </div>
+                            <div class="pro-details-compare-wishlist pro-details-compare">
+                                <a href="compare.html"><i class="pe-7s-refresh-2"></i></a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="pro-details-same-style">
+                        @foreach (var stock in Model.Product.Stock)
+                        {
+                            if (stock.Qty <= 10)
+                            {
+                                <span class="help is-danger is-hidden low-stock" id="low-stock-@stock.Id">
+                                    @(stock.Qty == 0 ? "Нет на складе" : $"{stock.Qty} осталось")
+                                </span>
+                            }
+                        }
+                    </div>
+
+                    <div class="pro-details-categories-info pro-details-same-style d-flex">
+                        <span>Категории: </span>
+                        <ul class="d-flex">
+                            @foreach (var category in Model.Product.Categories)
+                            {
+                                <li>
+                                    @category.Category.Title
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="pro-details-social-info pro-details-same-style d-flex">
+                        <span>Share: </span>
+                        <ul class="d-flex">
+                            <li>
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var toggleStock = function (e) {
+        console.log(e);
+
+        var stockToHide = document.querySelectorAll('.low-stock');
+        console.log(stockToHide);
+
+        stockToHide.forEach(function (e) {
+            e.classList.add('is-hidden');
+        });
+
+        showLowStock(e.target.value);
+    };
+
+    var showLowStock = function (id) {
+        var stockToShow = document.getElementById('low-stock-' + id);
+
+        if (stockToShow !== null && stockToShow !== undefined)
+            stockToShow.classList.remove('is-hidden');
+    };
+
+    showLowStock(document.getElementById('CartViewModel_StockId').value);
+</script>
+
+<script src="~/assets/js/vendor/jquery-3.5.1.min.js"></script>
+
+<script src="~/assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="~/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+<script src="~/assets/js/vendor/modernizr-3.11.2.min.js"></script>
+
+<!--Plugins JS-->
+<script src="~/assets/js/plugins/swiper-bundle.min.js"></script>
+<script src="~/assets/js/plugins/jquery-ui.min.js"></script>
+<script src="~/assets/js/plugins/jquery.nice-select.min.js"></script>
+<script src="~/assets/js/plugins/countdown.js"></script>
+<script src="~/assets/js/plugins/scrollup.js"></script>
+<script src="~/assets/js/plugins/jquery.zoom.min.js"></script>
+<script src="~/assets/js/plugins/venobox.min.js"></script>
+<script src="~/assets/js/plugins/ajax-mail.js"></script>
+
+<!-- Use the minified version files listed below for better performance and remove the files listed above -->
+<!-- <script src="assets/js/vendor/vendor.min.js"></script>
+<script src="assets/js/plugins/plugins.min.js"></script> -->
+<!-- Main Js -->
+<script src="~/assets/js/main.js"></script>

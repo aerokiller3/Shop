@@ -25,7 +25,7 @@ namespace Shop.Application.Products
                     Name = x.Name,
                     Description = x.Description,
                     Value = $"{x.Value:N2}",
-                    Image = x.Image,
+                    Image = x.Images.Select(y => y.Path).ToList(),
                     Categories = x.Categories,
 
                     StockCount = x.Stock.Sum(y => y.Qty)
@@ -49,7 +49,7 @@ namespace Shop.Application.Products
                         Name = x.Product.Name,
                         Description = x.Product.Description,
                         Value = $"{x.Product.Value:N2}",
-                        Image = x.Product.Image,
+                        Image = x.Product.Images.Select(y => y.Path).ToList(),
 
                         StockCount = x.Product.Stock.Sum(s => s.Qty),
                     })
@@ -68,7 +68,7 @@ namespace Shop.Application.Products
                     Name = x.Name,
                     Description = x.Description,
                     Value = $"{x.Value:N2}",
-                    Image = x.Image,
+                    Image = x.Images.Select(y => y.Path).ToList(),
 
                     StockCount = x.Stock.Sum(s => s.Qty),
                     Categories = x.Categories
@@ -90,7 +90,7 @@ namespace Shop.Application.Products
                     Name = x.Product.Name,
                     Description = x.Product.Description,
                     Value = $"{x.Product.Value:N2}",
-                    Image = x.Product.Image,
+                    Image = x.Product.Images.Select(y=>y.Path).ToList(),
 
                     StockCount = x.Product.Stock.Sum(s => s.Qty),
                 })
@@ -105,7 +105,7 @@ namespace Shop.Application.Products
             public string Name { get; set; }
             public string Description { get; set; }
             public string Value { get; set; }
-            public string Image { get; set; }
+            public IEnumerable<string> Image { get; set; }
             public int StockCount { get; set; }
             public List<CategoryProduct> Categories { get; set; }
         }

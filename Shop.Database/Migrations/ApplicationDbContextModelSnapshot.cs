@@ -185,6 +185,29 @@ namespace Shop.Database.Migrations
                     b.ToTable("CategoryProducts");
                 });
 
+            modelBuilder.Entity("Shop.Domain.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Shop.Domain.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -264,9 +287,6 @@ namespace Shop.Database.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -477,6 +497,13 @@ namespace Shop.Database.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Shop.Domain.Models.Image", b =>
+                {
+                    b.HasOne("Shop.Domain.Models.Product", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Shop.Domain.Models.Order", b =>

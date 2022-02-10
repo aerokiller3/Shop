@@ -16,6 +16,7 @@ namespace Shop.Database
         public DbSet<StockOnHold> StocksOnHold { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

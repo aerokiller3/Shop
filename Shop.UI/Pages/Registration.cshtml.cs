@@ -55,7 +55,7 @@ namespace Shop.UI.Pages
                 var link = Url.Page(
                     "ConfirmPage",
                     "",
-                    new {userId = user.Id, code},
+                    new { userId = user.Id, code },
                     HttpContext.Request.Scheme);
 
                 var emailService = new ServiceMail();
@@ -68,39 +68,39 @@ namespace Shop.UI.Pages
 
             return Page();
         }
-    }
 
-    public class RegisterViewModel
-    {
-        [Required]
-        [Display(Name = "Фамилия")]
-        public string SurName { get; set; }
-        [Required]
-        [Display(Name = "Имя")]
-        public string Name { get; set; }
-        [Required]
-        [Display(Name = "Отчество")]
-        public string Patronymic { get; set; }
-        [Required]
-        [Display(Name = "Номер телефона")]
-        public string Phone { get; set; }
+        public class RegisterViewModel
+        {
+            [Required]
+            [Display(Name = "Фамилия")]
+            public string SurName { get; set; }
+            [Required]
+            [Display(Name = "Имя")]
+            public string Name { get; set; }
+            [Required]
+            [Display(Name = "Отчество")]
+            public string Patronymic { get; set; }
+            [Required]
+            [Display(Name = "Номер телефона")]
+            public string Phone { get; set; }
 
-        [Required]
-        [Display(Name = "Электронная почта")]
-        public string Email { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        [Display(Name = "Дата рождения")]
-        public DateTime BirthDay { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-        [Display(Name = "Введите пароль ещё раз")]
-        public string ConfirmPassword { get; set; }
-        public string ReturnUrl { get; set; }
+            [Required]
+            [Display(Name = "Электронный адрес")]
+            public string Email { get; set; }
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Дата рождения")]
+            public DateTime BirthDay { get; set; }
+            [Required]
+            [DataType(DataType.Password)]
+            [Display(Name = "Пароль")]
+            public string Password { get; set; }
+            [Required]
+            [DataType(DataType.Password)]
+            [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+            [Display(Name = "Введите пароль ещё раз")]
+            public string ConfirmPassword { get; set; }
+            public string ReturnUrl { get; set; }
+        }
     }
 }

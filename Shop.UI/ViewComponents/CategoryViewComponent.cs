@@ -13,10 +13,15 @@ namespace Shop.UI.ViewComponents
             _getCategories = getCategories;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string view)
         {
-            var model = _getCategories.DoWithoutParent();
-            return await Task.FromResult((IViewComponentResult) View("Category", model));
+            var model = _getCategories.Do();
+            if (view == "CategoryMobile")
+            {
+                return await Task.FromResult((IViewComponentResult) View(view, model));
+            }
+
+            return await Task.FromResult((IViewComponentResult)View(view, model));
         }
     }
 }

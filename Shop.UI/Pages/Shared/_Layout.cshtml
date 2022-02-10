@@ -6,9 +6,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YouRD Shop</title>
+    <link rel="shortcut icon" href="~/assets/images/favicon/favicon.ico" type="image/png">
+    <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/css/vendor/pe-icon-7-stroke.css" />
+    <link rel="stylesheet" href="~/assets/css/vendor/font.awesome.css" />
+    <link rel="stylesheet" href="~/assets/css/plugins/animate.css" />
+    <link rel="stylesheet" href="~/assets/css/plugins/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="~/assets/css/plugins/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/assets/css/plugins/nice-select.css" />
+    <link rel="stylesheet" href="~/assets/css/plugins/venobox.css" />
+    <link rel="stylesheet" href="~/assets/css/style.min.css" />
+    @*<link rel="stylesheet" href="~/assets/css/style1.css"/>*@
+
     <environment include="Development">
         <link rel="stylesheet" href="~/css/site.css" />
-        <link href="~/lib/bulma-0.9.0/css/bulma.css" rel="stylesheet" />
+        @*<link href="~/lib/bulma-0.9.0/css/bulma.css" rel="stylesheet" />*@
         <link href="~/css/simple-line-icons.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </environment>
@@ -20,201 +32,260 @@
     <script id="ISDEKscript" type="text/javascript" src="https://widget.cdek.ru/widget/widjet.js" charset="utf-8"></script>
 </head>
 <body>
-    <nav class="navbar is-black" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <img src="~/images/Логотип1.jpg" width="40" height="40" alt="YouRD.Shop"/>
-                </a>
-
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-start">
-
-                    <a class="navbar-item" href="/">
-                        Главная
-                    </a>
-
-                    <a class="navbar-item">
-                        О нас
-                    </a>
-
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            Категории
-                        </a>
-                        <vc:category></vc:category>
+    <header>
+        <div class="header-main sticky-nav menu_fixed animated fadeInDown">
+            <div class="container position-relative">
+                <div class="row">
+                    <div class="col-auto align-self-center">
+                        <div>
+                            <a href="/"><img src="~/images/лого.jpg" alt="YouRD.Shop"></a>
+                        </div>
                     </div>
+                    <div class="col align-self-center d-none d-lg-block">
+                        <div class="main-menu">
+                            <ul>
+                                <li class="dropdown">
+                                    <a href="/">Главная</a>
+                                </li>
+                                <li class="dropdown position-static">
+                                    <a>Категории <i class="pe-7s-angle-down"></i></a>
+                                    <ul class="mega-menu d-block">
+                                        <li class="d-flex">
+                                            <vc:category view="Category"></vc:category>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="">О нас</a></li>
+                                <li><a href="">Гарантии</a></li>
+                                <li><a href="">Доставка и оплата</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col col-lg-auto align-self-center pl-0">
+                        <div class="header-actions">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if (User.HasClaim("Role", "Manager") || User.HasClaim("Role", "Admin"))
+                                {
+                                    <a class="header-action-btn login-btn d-none d-lg-block" asp-page="/Admin/Index">
+                                        Менеджер
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="header-action-btn login-btn d-none d-lg-block" asp-page="/Accounts/PersonalArea">
+                                        Личный кабинет
+                                    </a>
+                                }
+                                <vc:cart view="Small"></vc:cart>
+                                <a class="header-action-btn login-btn d-none d-lb-block" asp-page="/Accounts/Logout">Выйти</a>
+                            }
+                            else
+                            {
+                                <vc:cart view="Small"></vc:cart>
+                                <a class="header-action-btn login-btn" asp-page="/Accounts/Login">Войти</a>
+                            }
+                            <a href="#offcanvas-mobile-menu" class="header-action-btn offcanvas-toggle d-lg-none">
+                                <i class="pe-7s-menu"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <div id="offcanvas-mobile-menu" class="offcanvas offcanvas-mobile-menu">
+        <button class="offcanvas-close"></button>
+        <div class="inner">
+            <div class="offcanvas-menu mb-4">
+                <ul>
+                    <li>
+                        <a href="/">Главная</a>
+                    </li>
+                    <li>
+                        <span class="menu-expand"></span>
+                        <a>
+                            <span class="menu-text">Категории</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <vc:category view="CategoryMobile"></vc:category>
+                        </ul>
+                    </li>
+                    <li><a>О нас</a></li>
+                    <li><a>Гарантии</a></li>
+                    <li><a>Доставка о оплата</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         @if (User.HasClaim("Role", "Manager") || User.HasClaim("Role", "Admin"))
                         {
-                            <a class="navbar-item" asp-page="/Admin/Index">
-                                Admin
-                            </a>
+                            <li><a asp-page="/Admin/Index">Менеджер</a></li>
                         }
                         else
                         {
-                            <a class="navbar-item" asp-page="/Accounts/PersonalArea">
-                                <input hidden="hidden" asp-for="@User.Identity.Name" />
-                                Личный кабинет
-                            </a>
+                            <li><a asp-page="/Accounts/PersonalArea">Личный кабинет</a></li>
                         }
-                    }
-                    @*<a class="navbar-item">
-                            <form>
-                                <input type="text" placeholder="Что-нибудь ищете?"/>
-                                <input type="submit" value="Найти" />
-                            </form>
-                        </a>*@
-                </div>
-
-                <div class="navbar-end">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <vc:cart view="Small"></vc:cart>
-                        <a class="navbar-item" asp-page="/Accounts/Logout">Log Out</a>
                     }
                     else
                     {
-                        <a class="navbar-item" asp-page="Accounts/Login" title="Страница входа">
-                            <i class="fa fa-user fa-lg" aria-hidden="true"></i>
-                        </a>
-                        <vc:cart view="Small"></vc:cart>
+                        <li><a asp-page="/Account/Login">Войти</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="offcanvas-social mt-auto">
+                <ul>
+                    <li>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="offcanvas-cart" class="offcanvas offcanvas-cart">
+        <div class="inner">
+            <div class="head">
+                <span class="title">Корзина</span>
+                <button class="offcanvas-close">×</button>
+            </div>
+            <div class="body customScroll">
+                <ul class="minicart-product-list">
+                    <vc:cart view="MobileCart"></vc:cart>
+                </ul>
+            </div>
+            <div class="foot">
+                <div class="buttons mt-30px">
+                    <a asp-page="/Cart" class="btn btn-dark btn-hover-primary mb-30px">Перейти в корзину</a>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-page="/Checkout/CustomerInformation" class="btn btn-outline-dark current-btn">Оплатить</a>
                     }
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
 
     <breadcrumb></breadcrumb>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="footer">
+    @*<div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>*@
 
-        <div class="bd-footer-links">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-3">
-                        <p class="bd-footer-link-title">Информация</p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Доставка
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Оплата
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Контактные данные
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Гарантии
-                            </a>
-                        </p>
-                    </div>
-                    <div class="column is-3">
-                        <p class="bd-footer-link-title">Личный кабинет</p>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <p class="bd-footer-link">
-                                <a asp-page="/Accounts/PersonalArea">
-                                    Личный кабинет
-                                </a>
-                            </p>
+    @RenderBody()
 
-                            <p class="bd-footer-link">
-                                <a class="bd-footer-link" asp-page="/UserOrders">
-                                    История заказов
-                                </a>
-                            </p>
-                        }
-                        else
-                        {
-                            <p class="bd-footer-link">
-                                <a asp-page="/Accounts/Login">
-                                    Личный кабинет
-                                </a>
-                            </p>
+    <div class="footer-area">
+        <div>
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3 mb-md-30px mb-lm-30px">
+                            <div class="single-wedge">
+                                <div class="footer-logo">
+                                    <a><img src="assets/images/logo/logo-white.png" alt=""></a>
+                                </div>
+                                <p class="about-text">
+                                    Lorem ipsum dolor sit amet consectet adipisicing elit, sed do
+                                    eiusmod templ incididunt ut labore et dolore magnaol aliqua Ut enim ad minim.
+                                </p>
+                                <ul class="link-follow">
+                                    <li>
+                                        <a title="Instagram" href="#">
+                                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a title="Facebook" href="#">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-lg-2 mb-md-30px mb-lm-30px pl-lg-50px">
+                            <div class="single-wedge">
+                                <h4 class="footer-herading">Quick Links</h4>
+                                <div class="footer-links">
+                                    <div class="footer-row">
+                                        <ul class="align-items-center">
+                                            <li class="li">
+                                                <a class="single-link" href="#">
+                                                    Support
+                                                </a>
+                                            </li>
+                                            <li class="li"><a class="single-link" href="#">Helpline</a></li>
+                                            <li class="li"><a class="single-link" href="#">Courses</a></li>
+                                            <li class="li"><a class="single-link" href="about.html">About</a></li>
+                                            <li class="li"><a class="single-link" href="#">Event</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-sm-6 mb-lm-30px pl-lg-50px">
+                            <div class="single-wedge">
+                                <h4 class="footer-herading">Other Page</h4>
+                                <div class="footer-links">
+                                    <div class="footer-row">
+                                        <ul class="align-items-center">
+                                            <li class="li">
+                                                <a class="single-link" href="about.html"> About </a>
+                                            </li>
+                                            <li class="li"><a class="single-link" href="blog-grid.html">Blog</a></li>
+                                            <li class="li"><a class="single-link" href="#">Speakers</a></li>
+                                            <li class="li"><a class="single-link" href="contact.html">Contact</a></li>
+                                            <li class="li"><a class="single-link" href="#">Tricket</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-sm-6 mb-lm-30px pl-lg-50px">
+                            <div class="single-wedge">
+                                <h4 class="footer-herading">Company</h4>
+                                <div class="footer-links">
+                                    <div class="footer-row">
+                                        <ul class="align-items-center">
+                                            <li class="li">
+                                                <a class="single-link" href="index.html">Jesco</a>
+                                            </li>
+                                            <li class="li"><a class="single-link" href="shop-left-sidebar.html">Shop</a></li>
+                                            <li class="li"><a class="single-link" href="contact.html">Contact us</a></li>
+                                            <li class="li"><a class="single-link" href="login.html">Log in</a></li>
+                                            <li class="li"><a class="single-link" href="#">Help</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3 col-sm-6">
+                            <div class="single-wedge">
 
-                            <p class="bd-footer-link">
-                                <a class="bd-footer-link" asp-page="/Accounts/Login">
-                                    История заказов
-                                </a>
-                            </p>
-                        }
-                    </div>
-                    <div class="column is-3">
-                        <p class="bd-footer-link-title">Дополнительно</p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Возврат товара
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Таблица размеров
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Политика конфиденциальности
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Гарантии
-                            </a>
-                        </p>
-                    </div>
-                    <div class="column is-3">
-                        <p class="bd-footer-link-title">Контакты</p>
+                                <h4 class="footer-herading">Store Information.</h4>
+                                <div class="footer-links">
+                                    <!-- News letter area -->
+                                    <p class="address">
+                                        2005 Your Address Goes Here. <br>
+                                        896, Address 10010, HGJ
+                                    </p>
+                                    <p class="phone">Phone/Fax:<a href="tel:0123456789">0123456789</a></p>
+                                    <p class="mail">Email:<a href="mailto:demo@example.com">demo@example.com</a></p>
+                                    <img src="assets/images/icons/payment.png" alt="" class="payment-img img-fulid">
 
-                        <p class="bd-footer-link">
-                            <i class="fa fa-calendar fa-lg"></i>
-                            <span>
-                                ПН-ВС с 10:00 до 22:00 по мск.
-                            </span>
-                        </p>
-
-                        <p class="bd-footer-link">
-                            <i class="fa fa-map-marker fa-2x"></i>
-                            <a asp-page="">
-                                Оплата
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="">
-                                Контактные данные
-                            </a>
-                        </p>
-                        <p class="bd-footer-link">
-                            <a asp-page="/Garanty">
-                                Гарантии
-                            </a>
-                        </p>
+                                    <!-- News letter area  End -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    </footer>
+    </div>
 
     <environment include="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -225,6 +296,28 @@
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="https://use.fontawesome.com/e942328e95.js"></script>
     </environment>
+
+    <script src="~/assets/js/vendor/jquery-3.5.1.min.js"></script>
+
+    <script src="~/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="~/assets/js/vendor/modernizr-3.11.2.min.js"></script>
+
+    <!--Plugins JS-->
+    <script src="~/assets/js/plugins/swiper-bundle.min.js"></script>
+    <script src="~/assets/js/plugins/jquery-ui.min.js"></script>
+    <script src="~/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="~/assets/js/plugins/countdown.js"></script>
+    <script src="~/assets/js/plugins/scrollup.js"></script>
+    <script src="~/assets/js/plugins/jquery.zoom.min.js"></script>
+    <script src="~/assets/js/plugins/venobox.min.js"></script>
+    <script src="~/assets/js/plugins/ajax-mail.js"></script>
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <!-- <script src="assets/js/vendor/vendor.min.js"></script>
+    <script src="assets/js/plugins/plugins.min.js"></script> -->
+    <!-- Main Js -->
+    <script src="~/assets/js/main.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

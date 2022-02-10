@@ -4,12 +4,17 @@
 
 }
 
-
-<div class="navbar-dropdown" onclick="categoryProducts(event)">
-    @foreach (var category in Model)
-    {
-        <a class="navbar-item" data-category-id="@category.Id" asp-page="/Index" asp-route-categoryId="@category.Id">
-            @category.Title
-        </a>
-    }
-</div>
+@foreach (var category in Model.Where(x => x.ParentCategoryId == null))
+{
+    <ul class="d-block">
+        <li class="title">
+            <a>@category.Title</a>
+        </li>
+            @foreach (var child in Model.Where(x => x.ParentCategoryId == category.Id))
+            {
+                <li onclick="categoryProducts(event)">
+                    <a data-category-id="@child.Id" asp-page="/Index" asp-route-categoryId="@child.Id">@child.Title</a>
+                </li>
+            }
+    </ul>
+}

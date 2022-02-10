@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Shop.Domain.Infrastructure;
 using Shop.Domain.Models;
 
@@ -41,7 +42,7 @@ namespace Shop.Application.Cart
                 StockId = stock.Id,
                 Qty = request.Qty,
                 Value = stock.Product.Value,
-                Image = stock.Product.Image
+                Image = stock.Product.Images.FirstOrDefault().Path
             };
 
             _sessionManager.AddProduct(cartProduct);

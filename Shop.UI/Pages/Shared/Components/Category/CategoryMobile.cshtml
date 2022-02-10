@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Shop.Application.Categories.GetCategories.CategoryViewModel>
+
+@{
+
+}
+
+@foreach (var category in Model.Where(x => x.ParentCategoryId == null))
+{
+    <li>
+        <a><span class="menu-text">@category.Title</span></a>
+        <ul class="sub-menu">
+            @foreach (var child in Model.Where(x => x.ParentCategoryId == category.Id))
+            {
+                <li>
+                    <a data-category-id="@child.Id" asp-page="/Index" asp-route-categoryId="@child.Id">@child.Title</a>
+                </li>
+            }
+        </ul>
+    </li>
+}

@@ -4,116 +4,138 @@
     ViewData["Title"] = "Главная страница";
 }
 
-<div class="section-sm">
-    <div class="tile is-mobile is-ancestor mr-3">
-        <div class="columns is-multiline tile is-3">
-            <form method="post" asp-page-handler="CategoriesProducts">
-                <div class="container-cat">
-                    <div class="control-group">
-
-                        <div class="field has-addons has-addons-right">
-
-                            <p class="control">
-                                <input class="input" type="text" placeholder="Найти">
-                            </p>
-                            <p class="control">
-                                <a class="button">
-                                    <i class="fas fa-instagram"></i>
-                                </a>
-                            </p>
-
-                            @*<div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Найти" />
+<div class="shop-category-area pt-20px pb-100px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 order-lg-first col-md-12 order-md-first order-1 mb-md-60px mb-lm-60px">
+                <div class="shop-sidebar-wrap">
+                    <div class="sidebar-widget-search">
+                        <form id="widgets-searchbox" action="#">
+                            <input class="input-field" type="text" placeholder="Search">
+                            <button class="widgets-searchbox-btn" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h4 class="sidebar-title">Категории</h4>
+                        <div class="sidebar-widget-category">
+                            @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
+                            {
+                                <label class="text-lg-center">@parent.Title</label>
+                                <div class="select">
+                                    <select name="categoryId">
+                                        <option value="hide">--Выберите категорию</option>
+                                        @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
+                                        {
+                                            <option name="categoryId" value="@child.Id">@child.Title</option>
+                                        }
+                                    </select>
                                 </div>
-                                <div class="control">
-                                    <a class="button is-info" style="color: black">
-                                        <i class="fa fa-search fa-lg" style="color: orange" aria-hidden="true"></i>
-                                    </a>
-                                </div>*@
+                            }
+                            <button class="btn btn-primary" type="submit">Выбрать</button>
                         </div>
-
-                        <h2>Категории</h2>
-                        @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
-                        {
-                            <label class="text-lg-center">@parent.Title</label>
-                            <div class="select">
-                                <select name="categoryId">
-                                    <option value="hide">--Выберите категорию</option>
-                                    @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
-                                    {
-                                        <option name="categoryId" value="@child.Id">@child.Title</option>
-                                    }
-                                </select>
+                    </div>
+                    @*<div class="sidebar-widget mt-8">
+                            <h4 class="sidebar-title">Price Filter</h4>
+                            <div class="price-filter">
+                                <div class="price-slider-amount">
+                                    <input type="text" id="amount" class="p-0 h-auto lh-1" name="price"
+                                           placeholder="Add Your Price" />
+                                </div>
+                                <div id="slider-range"></div>
                             </div>
-                        }
-                        <button class="btn btn-primary" type="submit" @*name="categoryId" id="categoryId"*@>Выбрать</button>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-9 order-lg-last col-md-12 order-md-last order-2">
+                <div class="shop-top-bar d-flex">
+                    <div class="shop-tab nav">
+                        <a class="active" href="#shop-grid" data-bs-toggle="tab">
+                            <i class="fa fa-th" aria-hidden="true"></i>
+                        </a>
+                        <a href="#shop-list" data-bs-toggle="tab">
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="select-shoing-wrap d-flex align-items-center">
+                        <div class="shot-product">
+                            <p>Sort By:</p>
+                        </div>
+                        <div class="shop-select">
+                            <select class="shop-sort">
+                                <option data-display="Relevance">Relevance</option>
+                                <option value="1"> Name, A to Z</option>
+                                <option value="2"> Name, Z to A</option>
+                                <option value="3"> Price, low to high</option>
+                                <option value="4"> Price, high to low</option>
+                            </select>
+
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-
-        <div class="columns is-multiline is-mobile tile is-9 is-parent border-right">
-            @{
-                //for (int i = 0; i < 10; i++)
-                //{
-                if (Model.Products.Any())
-                {
-                    foreach (var p in Model.Products)
-                    {
-                        <div class="column is-3-desktop is-4-tablet is-6-mobile">
-                            <a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">
-                                <div class="card">
-                                    <div class="card-image">
-                                        <figure class="image is-1by1">
-                                            @if (string.IsNullOrEmpty(p.Image))
-                                            {
-                                                <img src="~/images/no_image.png" />
-                                            }
-                                            else
-                                            {
-                                                <img src="/products/images/@p.Image" />
-                                            }
-                                        </figure>
-                                    </div>
-                                    <div class="card-content">
-                                        @{
-                                            string cssClass = "";
-                                            string message = "";
-                                            if (p.StockCount == 0)
-                                            {
-                                                cssClass = "is-danger";
-                                                message = "Нет на складе";
-                                            }
-                                            else if (p.StockCount <= 10)
-                                            {
-                                                cssClass = "is-warning";
-                                                message = "Осталось совсем чуть-чтуь";
-                                            }
-                                        }
-                                        @if (p.StockCount <= 10)
+                <div class="shop-bottom-area">
+                    <div class="row">
+                        <div class="col">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="shop-grid">
+                                    <div class="row mb-n-30px">
+                                        @for (int i = 0; i < 5; i++)
                                         {
-                                            <div class="notification is-paddingless has-text-centered @cssClass">
-                                                @message
-                                            </div>
+                                            @foreach (var product in Model.Products)
+                                            {
+                                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mb-30px" data-aos="fade-up"
+                                                     data-aos-delay="200">
+                                                    <div class="product">
+                                                        <div class="thumb">
+                                                            <a asp-page="Product1" asp-route-name="@product.Name.Replace(" ", "-")" class="image">
+                                                                <img src="@Url.Content("/images/"+product.Image.FirstOrDefault())" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="content">
+                                                            <div>
+                                                                @{
+                                                                    string cssClass = "";
+                                                                    string message = "";
+                                                                    if (product.StockCount == 0)
+                                                                    {
+                                                                        cssClass = "text-danger";
+                                                                        message = "Нет на складе";
+                                                                    }
+                                                                    else if (product.StockCount <= 10)
+                                                                    {
+                                                                        cssClass = "text-warning";
+                                                                        message = "Осталось совсем чуть-чтуь";
+                                                                    }
+                                                                }
+                                                                @if (product.StockCount <= 10)
+                                                                {
+                                                                    <div class="notification is-paddingless has-text-centered @cssClass">
+                                                                        @message
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            <h5 class="title">
+                                                                <a asp-page="Product" asp-route-name="@product.Name.Replace(" ", "-")">
+                                                                    @product.Name
+                                                                </a>
+                                                            </h5>
+                                                            <span class="price">
+                                                                <span class="new">$38.50</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         }
-                                        <p class="title is-size-4">
-                                            @p.Name - @p.Value
-                                        </p>
-                                        <p class="subtitle">
-                                            @*@p.Description*@
-                                        </p>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    }
-                }
-                else
-                {
-                    <p>Таких товаров нет</p>
-                }
-                //}
-            }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -37,6 +37,8 @@ namespace Shop.Application.Products
                 await _ctx.SaveChangesAsync();
             }
 
+            
+
             return _ctx.Products
                 .Include(x => x.Stock)
                 .Include(x => x.Categories)
@@ -46,7 +48,7 @@ namespace Shop.Application.Products
                 {
                     Name = x.Name,
                     Description = x.Description,
-                    Image = x.Image,
+                    Image = x.Images.Select(y=>y.Path),
                     Value = $"{x.Value:N2}",
                     Categories = x.Categories,
 
@@ -65,7 +67,7 @@ namespace Shop.Application.Products
             public string Name { get; set; }
             public string Description { get; set; }
             public string Value { get; set; }
-            public string Image { get; set; }
+            public IEnumerable<string> Image { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
             public IEnumerable<CategoryProduct> Categories { get; set; }
         }

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Shop.Application.Cart.GetCart.Response>
+
+@if (Model.Any())
+{
+    <div class="cart-main-area pt-100px pb-100px" id="cart-main">
+        <div class="container">
+            <h3 class="cart-page-title">Ваша корзина</h3>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-content table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Изображение</th>
+                                    <th>Наименование</th>
+                                    <th>Цена</th>
+                                    <th>Количество</th>
+                                    <th>Размер</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr>
+                                        <td class="product-thumbnail"><img class="img-responsive ml-15px" src="/images/@product.Image" /></td>
+                                        <td class="product-name">@product.Name</td>
+                                        <td class="product-price-cart">@product.RealValue</td>
+                                        <td class="product-quantity">
+                                            @*<button class="button" type="button" onclick="removeOneFromCart(event)" data-stock-id="@product.StockId">
+                                                -
+                                            </button>
+                                            <div id="stock-qty-@product.StockId">
+                                                @product.Qty
+                                            </div>
+                                            <button class="button" type="button" onclick="addOneToCart(event)" data-stock-id="@product.StockId">
+                                                +
+                                            </button>*@
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" type="text" name="qtybutton"
+                                                       value="1" />
+                                            </div>
+                                        </td>
+                                        <td class="product-name">@product.StockName</td>
+                                        <td class="product-remove">
+                                            <a onclick="removeAllFromCart(event)" data-stock-id="@product.StockId"><i class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="empty-cart-area pb-100px pt-100px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="cart-heading">
+                        <h2>Ваша корзина</h2>
+                    </div>
+                    <div class="empty-text-contant text-center">
+                        <i class="pe-7s-shopbag"></i>
+                        <h3>Пока что ваша корзина пуста</h3>
+                        <a asp-page="/Index" class="empty-cart-btn">
+                            <i class="fa fa-arrow-left"> </i> Начать покупки
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
