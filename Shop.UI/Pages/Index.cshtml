@@ -9,43 +9,37 @@
         <div class="row">
             <div class="col-lg-3 order-lg-first col-md-12 order-md-first order-1 mb-md-60px mb-lm-60px">
                 <div class="shop-sidebar-wrap">
+
                     <div class="sidebar-widget-search">
-                        <form id="widgets-searchbox" action="#">
-                            <input class="input-field" type="text" placeholder="Search">
+                        <form method="post" asp-page-handler="SearchProducts" id="widgets-searchbox">
+                            <input class="input-field" type="text" placeholder="Поиск" name="name">
                             <button class="widgets-searchbox-btn" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
                     </div>
+
                     <div class="sidebar-widget">
                         <h4 class="sidebar-title">Категории</h4>
                         <div class="sidebar-widget-category">
-                            @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
-                            {
-                                <label class="text-lg-center">@parent.Title</label>
-                                <div class="select">
-                                    <select name="categoryId">
-                                        <option value="hide">--Выберите категорию</option>
-                                        @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
-                                        {
-                                            <option name="categoryId" value="@child.Id">@child.Title</option>
-                                        }
-                                    </select>
-                                </div>
-                            }
-                            <button class="btn btn-primary" type="submit">Выбрать</button>
+                            <form method="post" asp-page-handler="CategoriesProducts">
+                                @foreach (var parent in Model.Categories.Where(x => x.ParentCategoryId == null))
+                                {
+                                    <label class="text-lg-center">@parent.Title</label>
+                                    <div class="select">
+                                        <select name="categoryId">
+                                            <option value="hide">--Выберите категорию</option>
+                                            @foreach (var child in Model.Categories.Where(x => x.ParentCategoryId == parent.Id))
+                                            {
+                                                <option name="categoryId" value="@child.Id">@child.Title</option>
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                                <button class="btn btn-primary" type="submit">Выбрать</button>
+                            </form>
                         </div>
                     </div>
-                    @*<div class="sidebar-widget mt-8">
-                            <h4 class="sidebar-title">Price Filter</h4>
-                            <div class="price-filter">
-                                <div class="price-slider-amount">
-                                    <input type="text" id="amount" class="p-0 h-auto lh-1" name="price"
-                                           placeholder="Add Your Price" />
-                                </div>
-                                <div id="slider-range"></div>
-                            </div>
-                        </div>*@
                 </div>
             </div>
 
