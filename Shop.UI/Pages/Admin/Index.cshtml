@@ -4,15 +4,14 @@
 }
 
 <div id="app" class="container">
-    <div v-if="!editing">
-        <button class="button" @@click="newProduct">Add New Product</button>
+    <div v-if="form === null">
+        <button class="button" @@click="newProduct()">Добавить</button>
         <table class="table">
             <tr>
                 <th>Id</th>
-                <th>Product</th>
-                <th>Value</th>
-                <th>Image</th>
-                <th>Categories</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Категории</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -20,40 +19,47 @@
                 <td>{{product.id}}</td>
                 <td>{{product.name}}</td>
                 <td>{{product.value}}</td>
-                <td>{{product.image}}</td>
                 <td v-for="category in product.categories" aria-multiline="true">{{category.category.title}}</td>
-                <td><a @@click="editProduct (product.id, index)">Edit</a></td>
-                <td><a @@click="deleteProduct(product.id, index)">Remove</a></td>
+                <td><a @@click="editProduct(product.id, index)">Редактировать</a></td>
+                <td><a @@click="deleteProduct(product.id, index)">Удалить</a></td>
             </tr>
         </table>
     </div>
 
     <div v-else>
+        <div class="mb-5">
+            <button class="button is-success" @@click="createProduct" v-if="!form.id">Создать</button>
+            <button class="button is-warning" @@click="updateProduct" v-else>Сохранить</button>
+            <button class="button" @@click="resetForm">Cancel</button>
+        </div>
         <div class="field">
-            <label class="label">Product Name</label>
+            <label class="label">Название</label>
             <div class="control">
-                <input class="input" v-model="productModel.name" />
+                <input class="input" type="text" v-model="form.name"/>
             </div>
         </div>
 
         <div class="field">
-            <label class="label">Product Description</label>
+            <label class="label">Описание</label>
             <div class="control">
-                <input class="input" v-model="productModel.description" />
+                <input class="input" type="text" v-model="form.description"/>
             </div>
         </div>
 
         <div class="field">
-            <label class="label">Value</label>
+            <label class="label">Цена</label>
             <div class="control">
-                <input class="input" v-model.number="productModel.value" />
+                <input class="input" type="number" v-model.number="form.value"/>
             </div>
         </div>
+        
+        
+        @*TODO: Уточнить у Димы про товары без категорий, могут ли такие быть*@
 
         <div class="field">
             <label class="label">Категории</label>
-            <div class="control">
-                <select v-model="productModel.categories" multiple>
+            <div class="select is-multiple">
+                <select v-model="form.categories" multiple size="10">
                     @foreach (var c in Model.Categories.Where(x => x.ParentCategoryId != null))
                     {
                         <option value="@c.Id">@c.Title</option>
@@ -62,19 +68,9 @@
             </div>
         </div>
 
-        <!--<div class="field"--> @*v-for="image in form.images"*@<!-->
-            <label class="label">Image</label>
-            <div class="control">
-                <input type="file" class="input" value="productModel.image" @@change="uploadImage" />-->
-                @*<div>
-                        <img width="150" height="150" :src="image.path"/>
-                    </div>*@
-            <!--</div>
-        </div>-->
-        
         <div v-if="form.images">
             <div class="field">
-                <button class="button is-danger" @@click="form.images = null">Reset Images</button>
+                <button class="button is-danger" @@click="form.images = null">Загрузить новые</button>
             </div>
             <div class="columns" v-for="image in form.images">
                 <div class="column is-2 flex justify-center align-center is-size-1">
@@ -89,7 +85,7 @@
             <div class="field">
                 <div class="control">
                     <input ref="file" class="is-hidden" type="file" accept="image/*" @@change="addImage">
-                    <button class="button" @@click="$refs.file.click()">Add Image</button>
+                    <button class="button" @@click="$refs.file.click()">Добавить картинку</button>
                 </div>
             </div>
             <div class="columns" v-for="(img, index) in fileImages">
@@ -100,20 +96,14 @@
                     <img width="150" height="150" :src="img"/>
                 </div>
                 <div class="column flex-column justify-center align-center">
-                    <button class="button" @@click="moveImageUp(index)" v-if="index > 0">Up</button>
-                    <button class="button" @@click="moveImageDown(index)" v-if="index < fileImages.length - 1">Down</button>
+                    <button class="button" @@click="moveImageUp(index)" v-if="index > 0">Выше</button>
+                    <button class="button" @@click="moveImageDown(index)" v-if="index < fileImages.length - 1">Ниже</button>
                 </div>
                 <div class="column flex justify-center align-center">
-                    <button class="button is-danger" @@click="form.images.splice(index, 1)">Remove</button>
+                    <button class="button is-danger" @@click="images.splice(index, 1)">Удалить</button>
                 </div>
             </div>
         </div>
-
-        <br />
-
-        <button class="button is-success" @@click="createProduct" v-if="!form.id">Create Product</button>
-        <button class="button is-warning" @@click="updateProduct" v-else>Update Product</button>
-        <button class="button" @@click="cancel">Cancel</button>
     </div>
 </div>
 

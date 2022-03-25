@@ -62,7 +62,7 @@ namespace Shop.Application.Products
 
         public IEnumerable<ProductViewModel> Do(string name)
         {
-            var products = _ctx.Products.Where(p => name.Contains(p.Name))
+            var products = _ctx.Products.Where(p => p.Name.ToLower().Contains(name.ToLower()))
                 .Select(x => new ProductViewModel
                 {
                     Name = x.Name,

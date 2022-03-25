@@ -60,7 +60,7 @@
                 form,
                 {
                     headers: {
-                        'Content-Type': 'miltipart/form-data'
+                        'Content-Type': 'multipart/form-data'
                     }
                 })
                 .then(() => this.getCategories())

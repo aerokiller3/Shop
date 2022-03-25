@@ -4,7 +4,6 @@ using Shop.Database;
 
 namespace Shop.UI.Pages
 {
-    //TODO: Разобраться зачем эта страница
     public class OrderModel : PageModel
     {
         private readonly ApplicationDbContext _ctx;

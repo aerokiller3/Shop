@@ -4,7 +4,7 @@
 @{
 }
 
-<div class="columns">
+@*<div class="columns">
     <div class="column is-6">
         <form method="post">
             <div class="field">
@@ -77,6 +77,84 @@
     </div>
     <div class="column is-6">
         <vc:cart view="Default"></vc:cart>
+    </div>
+</div>*@
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-7">
+            <form method="post">
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Имя</label>
+                        <input class="input" asp-for="CustomerInformation.FirstName" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.FirstName" />
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Фамилия</label>
+                        <input class="input" asp-for="CustomerInformation.LastName" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.LastName" />
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Номер телефона</label>
+                        <input class="input" asp-for="CustomerInformation.PhoneNumber" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.PhoneNumber" />
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Электронная почта</label>
+                        <input class="input" asp-for="CustomerInformation.Email" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.Email" />
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Адрес</label>
+                        <input class="input" asp-for="CustomerInformation.Address1" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.Address1" />
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Запасной адрес</label>
+                        <input class="input" asp-for="CustomerInformation.Address2" />
+                    </p>
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Город</label>
+                        <input class="input" asp-for="CustomerInformation.City" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.City" />
+                </div>
+
+                <div class="field">
+                    <p class="control">
+                        <label class="label">Почтовый индекс</label>
+                        <input class="input" asp-for="CustomerInformation.PostCode" />
+                    </p>
+                    <span class="help is-warning" asp-validation-for="CustomerInformation.PostCode" />
+                </div>
+
+                <div class="field">
+                    <button class="button is-success" type="submit">Перейти к оплате</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-5">
+            <vc:cart view="Default"></vc:cart>
+        </div>
     </div>
 </div>
 

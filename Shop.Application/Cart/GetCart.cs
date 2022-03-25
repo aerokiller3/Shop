@@ -37,7 +37,7 @@ namespace Shop.Application.Cart
                 RealValue = x.Value,
                 StockId = x.StockId,
                 Qty = x.Qty,
-                Image = x.Image,
+                Image = "/images/" + x.Image,
                 StockName = _ctx.Stock.FirstOrDefault(y => y.Id == x.StockId).Description
             });
         }

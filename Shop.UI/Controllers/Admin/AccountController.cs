@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Domain.Models;
 
-namespace Shop.UI.Controllers
+namespace Shop.UI.Controllers.Admin
 {
     [Route("[controller]")]
     [Authorize(Policy = "Admin")]

@@ -24,7 +24,8 @@ namespace Shop.Application.Admin.ProductsAdmin
                     Id = x.Id,
                     Name = x.Name,
                     Value = x.Value,
-                    Categories = x.Categories
+                    Categories = x.Categories,
+                    Images = x.Images
                 });
 
         public class ProductViewModel
@@ -33,6 +34,7 @@ namespace Shop.Application.Admin.ProductsAdmin
             public string Name { get; set; }
             public decimal Value { get; set; }
             public IEnumerable<CategoryProduct> Categories { get; set; }
+            public IEnumerable<Image> Images { get; set; }
         }
     }
 }

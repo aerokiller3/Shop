@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Cart;
 
-namespace Shop.UI.Controllers
+namespace Shop.UI.Controllers.Admin
 {
     [Route("[controller]/[action]")]
     public class CartController : Controller

@@ -19,12 +19,15 @@ namespace Shop.Application.Admin.ProductsAdmin
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
 
-            var fileName = product.Name + ".jpg";
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
-
-            if (File.Exists(path))
+            for (var i = 0; i < product.Images.Count(); i++)
             {
-                File.Delete(path);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", product.Images[i].Path);
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                    _context.Images.Remove(product.Images[i]);
+                }
             }
 
             _context.Products.Remove(product);

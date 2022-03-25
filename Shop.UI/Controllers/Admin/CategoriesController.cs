@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Admin.CategoriesAdmin;
 using Shop.Database;
 
-namespace Shop.UI.Controllers
+namespace Shop.UI.Controllers.Admin
 {
     [Route("[controller]")]
     [Authorize(Policy = "Manager")]

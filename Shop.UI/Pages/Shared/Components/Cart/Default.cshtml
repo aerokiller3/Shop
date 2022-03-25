@@ -12,13 +12,13 @@
         <article class="media">
             <figure class="media-left">
                 <p class="image is-128x128">
-                    @if (string.IsNullOrEmpty(@product.Image))
+                    @if (string.IsNullOrEmpty(product.Image))
                     {
                         <img src="~/images/no_image.png" />
                     }
                     else
                     {
-                        <img src="/products/images/@product.Image" />
+                        <img src="@product.Image" />
                     }
                 </p>
             </figure>

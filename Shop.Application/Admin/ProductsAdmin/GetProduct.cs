@@ -19,15 +19,20 @@ namespace Shop.Application.Admin.ProductsAdmin
             _ctx.Products
                 .Include(x => x.Categories)
                 .ThenInclude(x => x.Category)
-                .Include(x=>x.Images)
+                .Include(x => x.Images)
                 .Where(x => x.Id == id).Select(x => new ProductViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     Value = x.Value,
-                    Image = x.Images.Select(y=>y.Path).ToList(),
-                    Categories = x.Categories
+                    Images = x.Images.Select(y => new Image
+                    {
+                        Id = y.Id,
+                        Path = "/images/" + y.Path,
+                        Index = y.Index
+                    }).ToList(),
+                    Categories = x.Categories.Select(y => y.Category).ToList()
                 })
                 .FirstOrDefault();
 
@@ -37,8 +42,8 @@ namespace Shop.Application.Admin.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal Value { get; set; }
-            public List<string> Image { get; set; }
-            public List<CategoryProduct> Categories { get; set; }
+            public List<Image> Images { get; set; }
+            public List<Category> Categories { get; set; }
         }
     }
 }

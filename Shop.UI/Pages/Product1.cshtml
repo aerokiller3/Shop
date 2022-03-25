@@ -13,51 +13,21 @@
                         @foreach (var img in Model.Product.Image)
                         {
                             <div class="swiper-slide zoom-image-hover">
-                                <img class="img-responsive m-auto" src="/images/@img" alt=""/>
+                                <img class="img-responsive m-auto" src="/images/@img" alt="" />
                             </div>
                         }
-
-                        @*<div class="swiper-slide zoom-image-hover">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
-                        </div>
-                        <div class="swiper-slide zoom-image-hover">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
-                        </div>
-                        <div class="swiper-slide zoom-image-hover">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
-                        </div>
-                        <div class="swiper-slide zoom-image-hover">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image" alt="" >
-                        </div>*@
                     </div>
                 </div>
 
                 <div class="swiper-container zoom-thumbs mt-3 mb-3">
                     <div class="swiper-wrapper">
-                        
+
                         @foreach (var img in Model.Product.Image)
                         {
                             <div class="swiper-slide">
-                                <img class="img-responsive m-auto" src="/images/@img" width="100" height="134" alt=""/>
+                                <img class="img-responsive m-auto" src="/images/@img" width="100" height="134" alt="" />
                             </div>
                         }
-
-                        @*<div class="swiper-slide">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
-                                 alt="" width="100" height="134">
-                        </div>
-                        <div class="swiper-slide">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
-                                 alt="" width="100" height="134">
-                        </div>
-                        <div class="swiper-slide">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
-                                 alt="" width="100" height="134">
-                        </div>
-                        <div class="swiper-slide">
-                            <img class="img-responsive m-auto" src="/products/images/@Model.Product.Image"
-                                 alt="" width="100" height="134">
-                        </div>*@
                     </div>
                 </div>
             </div>
@@ -71,35 +41,44 @@
                     </div>
 
                     <form method="post">
-                        <div class="pro-details-size-info d-flex align-items-center">
-                            <span style="padding-right: 15px">Размеры  </span>
-                            <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)" class="pro-details-size select">
-                                @*<option disabled="disabled" selected="selected">Выберите размер</option>*@
-                                @foreach (var stock in Model.Product.Stock)
-                                {
-                                    bool disabled = stock.Qty <= 0;
+                        @*<div class="pro-details-size-info d-flex align-items-center">
+                                <span style="padding-right: 15px">Размеры  </span>
+                                <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)" class="pro-details-size select">
+                                    @foreach (var stock in Model.Product.Stock)
+                                    {
+                                        bool disabled = stock.Qty <= 0;
+                                        <option value="@stock.Id" disabled="@disabled">@stock.Description</option>
+                                    }
+                                </select>
+                            </div>*@
 
-                                    <option value="@stock.Id" disabled="@disabled">@stock.Description</option>
-                                }
-
-                            </select>
+                        <div class="select-shoing-wrap d-flex align-items-center">
+                            <div class="shot-product">
+                                <p>Размеры </p>
+                            </div>
+                            <div class="shop-select">
+                                <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)" class="nice-select">
+                                    @foreach (var stock in Model.Product.Stock)
+                                    {
+                                        bool disabled = stock.Qty <= 0;
+                                        <option value="@stock.Id" disabled="@disabled">@stock.Description</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
+
                         <p class="m-0">
                             @Model.Product.Description
                         </p>
 
                         <div class="pro-details-quality">
                             <div class="cart-plus-minus">
-                                <input class="cart-plus-minus-box" asp-for="CartViewModel.Qty" value="0" min="1"/>
+                                <input class="cart-plus-minus-box" asp-for="CartViewModel.Qty" value="1" min="1" />
                             </div>
                             <div class="pro-details-cart">
                                 <button class="add-cart" href="#">
-                                    Add To
-                                    Cart
+                                    В корзину
                                 </button>
-                            </div>
-                            <div class="pro-details-compare-wishlist pro-details-compare">
-                                <a href="compare.html"><i class="pe-7s-refresh-2"></i></a>
                             </div>
                         </div>
                     </form>
@@ -122,7 +101,7 @@
                             @foreach (var category in Model.Product.Categories)
                             {
                                 <li>
-                                    @category.Category.Title
+                                    @category.Category.Title &nbsp;
                                 </li>
                             }
                         </ul>
@@ -130,9 +109,7 @@
                     <div class="pro-details-social-info pro-details-same-style d-flex">
                         <span>Share: </span>
                         <ul class="d-flex">
-                            <li>
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
+
                             <li>
                                 <a href="#"><i class="fa fa-instagram"></i></a>
                             </li>

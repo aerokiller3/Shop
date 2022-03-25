@@ -23,6 +23,8 @@ namespace Shop.Application.Admin.ProductsAdmin
 
         public async Task<Response> Do(Request request)
         {
+            // TODO: разобраться с изменением размера картинок
+            #region comment
             //var fileName = request.Name + ".jpg";
             //var savePath = Path.Combine(_env.ContentRootPath, "wwwroot", "images", fileName);
             //await using (var fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
@@ -52,6 +54,7 @@ namespace Shop.Application.Admin.ProductsAdmin
             //        await img.SaveAsync(savePath);
             //    }
             //}
+            #endregion
 
             var product = new Product
             {
@@ -62,10 +65,14 @@ namespace Shop.Application.Admin.ProductsAdmin
 
             var categories = new List<Category>();
 
-            foreach (var categoryId in request.CategoriesId)
+            // Категории могут быть null, сделать проверку
+            if (request.CategoriesId != null)
             {
-                var category = _context.Categories.FirstOrDefault(x => x.Id == categoryId);
-                categories.Add(category);
+                foreach (var categoryId in request.CategoriesId)
+                {
+                    var category = _context.Categories.FirstOrDefault(x => x.Id == categoryId);
+                    categories.Add(category);
+                }
             }
 
             if (request.Images != null)
@@ -77,16 +84,6 @@ namespace Shop.Application.Admin.ProductsAdmin
                     Index = index,
                     Path = path
                 }));
-
-                //foreach (var image in request.Images)
-                //{
-                //    var fileName = request.Name + ".jpg";
-                //    var savePath = Path.Combine(_env.ContentRootPath, "wwwroot", "images", fileName);
-                //    await using (var fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
-                //    {
-                //        await image.CopyToAsync(fileStream);
-                //    }
-                //}
             }
 
             var categoryProducts = new List<CategoryProduct>();
@@ -126,8 +123,6 @@ namespace Shop.Application.Admin.ProductsAdmin
         {
             var index = 0;
             var paths = new List<string>();
-            //var fileName = $"{product.Name}_{index++}{Path.GetExtension(image.FileName)}";
-            //var savePath = Path.Combine(_env.ContentRootPath, "wwwroot", "images", fileName);
 
             foreach (var image in files)
             {
